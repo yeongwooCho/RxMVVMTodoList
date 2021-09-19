@@ -8,5 +8,9 @@
 import UIKit
 
 class TodoListHeaderView: UICollectionReusableView {
-        
+    @IBOutlet weak var sectionTitleLabel: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }
