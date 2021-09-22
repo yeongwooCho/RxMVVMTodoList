@@ -14,6 +14,10 @@
 		3D76C96326F7573D008F6E3B /* TodoListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76C96226F7573D008F6E3B /* TodoListCell.swift */; };
 		3D76C96526F759B4008F6E3B /* Alamofire+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76C96426F759B4008F6E3B /* Alamofire+Rx.swift */; };
 		3D76C96726F75A9B008F6E3B /* withoutRxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76C96626F75A9B008F6E3B /* withoutRxVC.swift */; };
+		3D76C96926F75DC4008F6E3B /* ObservableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76C96826F75DC4008F6E3B /* ObservableTest.swift */; };
+		3D76C96B26F75DEF008F6E3B /* NetworkCallTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76C96A26F75DEF008F6E3B /* NetworkCallTest.swift */; };
+		3D76C96D26F75E18008F6E3B /* ObservableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76C96C26F75E18008F6E3B /* ObservableViewModel.swift */; };
+		3D76C97026F75E67008F6E3B /* dependencyTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D76C96F26F75E67008F6E3B /* dependencyTest.swift */; };
 		3D79ADEF26F7477A008F0CE0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79ADEE26F7477A008F0CE0 /* AppDelegate.swift */; };
 		3D79ADF126F7477A008F0CE0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79ADF026F7477A008F0CE0 /* SceneDelegate.swift */; };
 		3D79ADF626F7477A008F0CE0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D79ADF426F7477A008F0CE0 /* Main.storyboard */; };
@@ -31,6 +35,10 @@
 		3D76C96226F7573D008F6E3B /* TodoListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListCell.swift; sourceTree = "<group>"; };
 		3D76C96426F759B4008F6E3B /* Alamofire+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alamofire+Rx.swift"; sourceTree = "<group>"; };
 		3D76C96626F75A9B008F6E3B /* withoutRxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = withoutRxVC.swift; sourceTree = "<group>"; };
+		3D76C96826F75DC4008F6E3B /* ObservableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableTest.swift; sourceTree = "<group>"; };
+		3D76C96A26F75DEF008F6E3B /* NetworkCallTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCallTest.swift; sourceTree = "<group>"; };
+		3D76C96C26F75E18008F6E3B /* ObservableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableViewModel.swift; sourceTree = "<group>"; };
+		3D76C96F26F75E67008F6E3B /* dependencyTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dependencyTest.swift; sourceTree = "<group>"; };
 		3D79ADEB26F7477A008F0CE0 /* RxMVVMTodoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxMVVMTodoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D79ADEE26F7477A008F0CE0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D79ADF026F7477A008F0CE0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +75,7 @@
 		3D76C95626F7567B008F6E3B /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				3D79ADF426F7477A008F0CE0 /* Main.storyboard */,
 				3D76C95E26F7570D008F6E3B /* TodoListViewController.swift */,
 				3D76C96026F75723008F6E3B /* TodoListHeaderView.swift */,
 				3D76C96226F7573D008F6E3B /* TodoListCell.swift */,
@@ -99,6 +108,17 @@
 			path = NetworkService;
 			sourceTree = "<group>";
 		};
+		3D76C96E26F75E36008F6E3B /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				3D76C96C26F75E18008F6E3B /* ObservableViewModel.swift */,
+				3D76C96826F75DC4008F6E3B /* ObservableTest.swift */,
+				3D76C96A26F75DEF008F6E3B /* NetworkCallTest.swift */,
+				3D76C96F26F75E67008F6E3B /* dependencyTest.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
 		3D79ADE226F7477A008F0CE0 = {
 			isa = PBXGroup;
 			children = (
@@ -120,13 +140,13 @@
 		3D79ADED26F7477A008F0CE0 /* RxMVVMTodoList */ = {
 			isa = PBXGroup;
 			children = (
+				3D76C96E26F75E36008F6E3B /* Test */,
 				3D76C95926F75696008F6E3B /* NetworkService */,
 				3D76C95826F75690008F6E3B /* Model */,
 				3D76C95726F75686008F6E3B /* ViewModel */,
 				3D76C95626F7567B008F6E3B /* ViewController */,
 				3D79ADEE26F7477A008F0CE0 /* AppDelegate.swift */,
 				3D79ADF026F7477A008F0CE0 /* SceneDelegate.swift */,
-				3D79ADF426F7477A008F0CE0 /* Main.storyboard */,
 				3D79ADFA26F7477B008F0CE0 /* Assets.xcassets */,
 				3D79ADFC26F7477B008F0CE0 /* LaunchScreen.storyboard */,
 				3D79ADFF26F7477B008F0CE0 /* Info.plist */,
@@ -264,9 +284,13 @@
 				3D79ADEF26F7477A008F0CE0 /* AppDelegate.swift in Sources */,
 				3D79ADF126F7477A008F0CE0 /* SceneDelegate.swift in Sources */,
 				3D76C95D26F756FD008F6E3B /* TodoViewModel.swift in Sources */,
+				3D76C97026F75E67008F6E3B /* dependencyTest.swift in Sources */,
+				3D76C96B26F75DEF008F6E3B /* NetworkCallTest.swift in Sources */,
 				3D76C95B26F756DA008F6E3B /* Todo.swift in Sources */,
 				3D76C96726F75A9B008F6E3B /* withoutRxVC.swift in Sources */,
 				3D76C96126F75723008F6E3B /* TodoListHeaderView.swift in Sources */,
+				3D76C96926F75DC4008F6E3B /* ObservableTest.swift in Sources */,
+				3D76C96D26F75E18008F6E3B /* ObservableViewModel.swift in Sources */,
 				3D76C96326F7573D008F6E3B /* TodoListCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
