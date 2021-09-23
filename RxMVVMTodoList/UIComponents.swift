@@ -9,6 +9,6 @@ import UIKit
 
 struct UIComponents {
     static var mainStoryboard: UIStoryboard {
-        return UIStoryboard(name: "main", bundle: Bundle.main)
+        return UIStoryboard(name: "Main", bundle: Bundle.main)
     }
 }
