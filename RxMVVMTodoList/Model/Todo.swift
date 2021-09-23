@@ -17,13 +17,20 @@ struct Todo: Codable, Equatable {
     
     var detail: String // 내용
     var id: Int // 구분
-    var isDone: Bool // 클릭이 되었는가
-    var isToday: Bool // today인가
+    var isDone: Bool // select button 선태 여부
+    var isToday: Bool // today, upcoming
     
     init(detail: String, id: Int, isDone: Bool, isToday: Bool) {
         self.detail = detail
         self.id = id
         self.isDone = isDone
+        self.isToday = isToday
+    }
+    
+    init (detail: String, isToday: Bool) {
+        self.detail = detail
+        self.id = Int(Date().timeIntervalSince1970)
+        self.isDone = false
         self.isToday = isToday
     }
     
@@ -33,7 +40,7 @@ struct Todo: Codable, Equatable {
         self.isToday = isToday
     }
     
-    // TODO: 동등 조건 추가
+    // 동등 조건 추가
     static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.id == rhs.id
     }
