@@ -43,7 +43,7 @@ class AlamofireRxCall: RxNetworkCallInterface {
                             let decoder = JSONDecoder()
                             let todos = try decoder.decode([Todo].self, from: data)
                             observer.onNext(todos)
-//                            completion(todos)
+                            completion(todos)
                         } catch let error {
                             observer.onError(error)
 //                            print("error: \(error.localizedDescription)")
@@ -72,7 +72,7 @@ class AlamofireRxCall: RxNetworkCallInterface {
                     case .success:
                         observer.onNext(params)
                         observer.onCompleted()
-//                        completion(params)
+                        completion(params)
                     case .failure(let error):
                         observer.onError(error)
                         print("🚫 Alamofire Request Error\nCode:\(error._code), Message: \(error.errorDescription!)")
