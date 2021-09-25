@@ -27,23 +27,25 @@ class TodoViewModel: ViewModelType {
     
     struct Input {
         let reloadTrigger = PublishSubject<Void>() // 이벤트 전달받고 전달해줄 놈, 구독이후 이벤트 전달, trigger: 방아쇠
-        let inputTodoList = PublishSubject<[Todo]>() // MARK: put 할때는 데이터의 이동이 필요하다.
     }
     
     struct Output {
         let todoList = BehaviorRelay<[Todo]>(value: []) // 이벤트를 받아 binding할때 쓰는놈, 현재는 비어있다.
-        let refreshing = BehaviorSubject<Bool>(value: false) // collectionView refreshing 해야할지 판단
+        let refreshing = BehaviorSubject<Bool>(value: false) // TableView refreshing 해야할지 판단
+        
+        let sectionTodoList = BehaviorRelay<[SectionModel<String, Todo>]>(value: [])
     }
     
     var input: Input
     var output: Output
-    let apiService: RxNetworkCallInterface // protocol
-    var disposeBag = DisposeBag()
+    var apiService: RxNetworkCallInterface // protocol
+    var disposeBag: DisposeBag
     
     init(input: Input = Input(), output: Output = Output(), apiService: RxNetworkCallInterface = AlamofireRxCall()) { // dependency injection
         self.input = input
         self.output = output
         self.apiService = apiService
+        self.disposeBag = DisposeBag()
         setReloadTrigger() // 장전, 땅!! 하는 중간다리 역할하는놈 setting 하기
     }
     
