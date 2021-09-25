@@ -19,6 +19,8 @@ protocol ViewModelType {
     // 그 타입을 가진 변수들이다.
     var input: Input { get }
     var output: Output { get }
+    var apiService: RxNetworkCallInterface { get }
+    var disposeBag: DisposeBag { get }
 }
 
 class TodoViewModel: ViewModelType {
