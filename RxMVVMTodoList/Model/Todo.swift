@@ -16,11 +16,11 @@ struct Todo: Codable, Equatable {
     }
     
     var detail: String // 내용
-    var id: Int // 구분
+    var id: TimeInterval // 구분
     var isDone: Bool // select button 선태 여부
     var isToday: Bool // today, upcoming
     
-    init(detail: String, id: Int, isDone: Bool, isToday: Bool) {
+    init(detail: String, id: TimeInterval, isDone: Bool, isToday: Bool) {
         self.detail = detail
         self.id = id
         self.isDone = isDone
@@ -29,7 +29,7 @@ struct Todo: Codable, Equatable {
     
     init (detail: String, isToday: Bool) {
         self.detail = detail
-        self.id = Int(Date().timeIntervalSince1970)
+        self.id = Date().timeIntervalSince1970
         self.isDone = false
         self.isToday = isToday
     }
