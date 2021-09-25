@@ -34,8 +34,9 @@ class AlamofireRxCall: RxNetworkCallInterface {
                     switch response.result {
                     case .success(let obj):
                         guard let objArray = obj as? [[String: Any]]  else {
+                            print("Parsing되는 데이터가 DB에 존재하지 않는다.")
                             observer.onError(response.error ?? GetFailureReason.notFound)
-//                            completion([])
+                            completion([])
                             return
                         }
                         do {
@@ -46,8 +47,8 @@ class AlamofireRxCall: RxNetworkCallInterface {
                             completion(todos)
                         } catch let error {
                             observer.onError(error)
+                            completion([])
 //                            print("error: \(error.localizedDescription)")
-//                            completion([])
                         }
                     case .failure(let error):
                         observer.onError(error)
