@@ -16,8 +16,8 @@ struct Todo: Codable, Equatable {
     }
     
     var detail: String // 내용
-    var id: TimeInterval // 구분
-    var isDone: Bool // select button 선태 여부
+    var id: TimeInterval // 구분 by timeIntervalSince1970
+    var isDone: Bool // select button
     var isToday: Bool // today, upcoming
     
     init(detail: String, id: TimeInterval, isDone: Bool, isToday: Bool) {
