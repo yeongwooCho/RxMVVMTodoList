@@ -16,9 +16,9 @@ class TodoListCell: UITableViewCell {
     @IBOutlet weak var strikeThroughView: UIView!
     @IBOutlet weak var strikeThroughWidth: NSLayoutConstraint!
     
-    var doneButtonTapHandler: ((Bool) -> Void)?
     var deleteButtonTapHandler: (() -> Void)?
     
+    // 셀이 화면에서 깨어날 때
     override func awakeFromNib() {
         super.awakeFromNib()
         reset()
@@ -38,7 +38,7 @@ class TodoListCell: UITableViewCell {
         showStrikeThrough(todo.isDone)
     }
     
-    // 흰색 짝대기, 가림막
+    // check가 되었을 때, 등장하는 가림막 view의 width 변경
     private func showStrikeThrough(_ show: Bool) {
         if show {
             strikeThroughWidth.constant = descriptionLabel.bounds.width
@@ -47,7 +47,7 @@ class TodoListCell: UITableViewCell {
         }
     }
     
-    func reset() {
+    private func reset() {  // check 가 아닌 본래의 상태
         descriptionLabel.alpha = 1
         deleteButton.isHidden = true
         showStrikeThrough(false)
@@ -59,12 +59,9 @@ class TodoListCell: UITableViewCell {
         descriptionLabel.alpha = isDone ? 0.2 : 1
         deleteButton.isHidden = !isDone
         showStrikeThrough(isDone)
-        
-        doneButtonTapHandler?(isDone)
     }
     
     @IBAction func deleteButtonTapped(_ sender: Any) {
-        // [x] TODO: deleteButton 처리
         deleteButtonTapHandler?()
     }
 }
