@@ -26,14 +26,14 @@ class AlamofireRxCall: RxNetworkCallInterface {
     var url = "https://sendy-todolist-default-rtdb.asia-southeast1.firebasedatabase.app/todos.json"
 
     func requestGet(completion: @escaping ([Todo]) -> Void) -> Observable<[Todo]> {
-        return Observable.create { observer -> Disposable in
-            AF.request(self.url,
+        return Observable.create { observer -> Disposable in // Observable: 이벤트 발생시 다양한 조건으로 이벤트를 보낼 건지를 정의
+            AF.request(self.url, // alamofire를 활용한 request
                        method: .get)
                 .validate(statusCode: 200..<300) // 200 ~ 299
-                .responseJSON(completionHandler: { response in
+                .responseJSON(completionHandler: { response in // 응답은 json으로 받는다
                     switch response.result {
                     case .success(let obj):
-                        guard let objArray = obj as? [[String: Any]]  else {
+                        guard let objArray = obj as? [[String: Any]]  else { // parsing부분 json -> data
                             print("Parsing되는 데이터가 DB에 존재하지 않는다.")
                             observer.onError(response.error ?? GetFailureReason.notFound)
                             completion([])
@@ -43,8 +43,8 @@ class AlamofireRxCall: RxNetworkCallInterface {
                             let data = try JSONSerialization.data(withJSONObject: objArray, options: [])
                             let decoder = JSONDecoder()
                             let todos = try decoder.decode([Todo].self, from: data)
-                            observer.onNext(todos)
-                            completion(todos)
+                            observer.onNext(todos) // 오류 발생이 나지 않으면 subscribe 한 모든 Observer에게 next 이벤트 전달
+                            completion(todos) // escaping closure. 함수 실행이 완료되었을때 실행된다.
                         } catch let error {
                             observer.onError(error)
                             completion([])
@@ -56,9 +56,9 @@ class AlamofireRxCall: RxNetworkCallInterface {
 //                        completion([])
                     }
                 })
-                return Disposables.create()
-        }
-    }
+                return Disposables.create() // 그 후, 리소스를 반환하는 disposable를 생성한다
+        } // 결국 이러한 Observable 입니다~ 이거 구독하면 이러이러한 조건에서 이벤트를 보낼꺼에요~ 정의한것
+    } // 결국 requestGet을 구독하는 Observer는 전달받은 데이터를 처리하면 된다.
     
     func requestPut(params: [Todo], completion: @escaping ([Todo]) -> Void) -> Observable<[Todo]> {
         return Observable.create { observer in
