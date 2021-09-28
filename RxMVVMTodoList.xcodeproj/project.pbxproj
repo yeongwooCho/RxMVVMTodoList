@@ -91,10 +91,7 @@
 			children = (
 				3D79ADF426F7477A008F0CE0 /* Main.storyboard */,
 				3D76C95E26F7570D008F6E3B /* TodoListViewController.swift */,
-				3D76C96026F75723008F6E3B /* TodoListHeaderView.swift */,
 				3D76C96226F7573D008F6E3B /* TodoListCell.swift */,
-				3D44BFB426FB7E5900D9D9CF /* TodoDetailViewController.swift */,
-				3D76C96626F75A9B008F6E3B /* withoutRxVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -103,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				3D76C95C26F756FD008F6E3B /* TodoViewModel.swift */,
-				3D44BFB626FB7F3100D9D9CF /* TodoDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -132,9 +128,13 @@
 				3D76C96A26F75DEF008F6E3B /* NetworkCallTest.swift */,
 				3D76C96F26F75E67008F6E3B /* dependencyTest.swift */,
 				3D44BFB026FB4AE600D9D9CF /* TestViewModel.swift */,
-				3D44BFB826FC0EFD00D9D9CF /* TestHeader.swift */,
 				3D44BFC026FC3B8200D9D9CF /* TestTableViewController.swift */,
 				3DD5583B26FC3FC7000778D4 /* TestTableViewCell.swift */,
+				3D76C96026F75723008F6E3B /* TodoListHeaderView.swift */,
+				3D44BFB426FB7E5900D9D9CF /* TodoDetailViewController.swift */,
+				3D76C96626F75A9B008F6E3B /* withoutRxVC.swift */,
+				3D44BFB626FB7F3100D9D9CF /* TodoDetailViewModel.swift */,
+				3D44BFB826FC0EFD00D9D9CF /* TestHeader.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
