@@ -12,10 +12,16 @@ class TodoDetailViewController: UIViewController {
 
     static let identifier = "TodoDetailViewController"
 
-    @IBOutlet weak var detailLabel: UILabel!
-    @IBOutlet weak var idLabel: UILabel!
-    @IBOutlet weak var isDoneLabel: UILabel!
-    @IBOutlet weak var isTodayLabel: UILabel!
+//    @IBOutlet weak var detailLabel: UILabel!
+//    @IBOutlet weak var idLabel: UILabel!
+//    @IBOutlet weak var isDoneLabel: UILabel!
+//    @IBOutlet weak var isTodayLabel: UILabel!
+    let detailLabel = UILabel()
+    let idLabel = UILabel()
+    let isDoneLabel = UILabel()
+    let isTodayLabel = UILabel()
+    let closeButton = UIButton()
+    
     
     let todoDetailViewModel = TodoDetailViewModel()
     
@@ -25,6 +31,14 @@ class TodoDetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         bindUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        closeButton
+    }
+    @IBAction func close(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
     
     func bindUI() {
