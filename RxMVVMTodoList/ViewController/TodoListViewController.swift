@@ -8,7 +8,9 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import RxGesture
 import RxDataSources
+import RxKeyboard
 
 class TodoListViewController: UIViewController, UIScrollViewDelegate {
     // RxCocoa 기반 TableView section header을 만들기 위해 편리한 type 지정
@@ -61,7 +63,7 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         // rx를 사용하면 코드가 분산이 되지 않고 한눈에 들어오게 되는 장점이 있는데, delegate는 rx를 쓰더라도 동일한 방식으로 진행된다.
         
         
-        setTableView()
+        setupTableView()
         // table view setting하는 것으로 tableView를 뷰 아래로 당기면 valueChanged가 일어난다.
         // 이는 Control Event type이며, 이를 구독하고 있다가 이벤트를 받게되면 input.reloadTrigger에 전달한다. 안쓰면 쓰레기통
         // output.refreshing는 구독 전 데이터도 이벤트로 보낼수 있는 BehaviorSubject이다.
@@ -81,11 +83,16 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         // todoList가 BehaviorSubject역할을 하고, sectionTodoList가 BehaviorRelay 역할을 한다.
         // 하지만, Delegate patten 을 빼는경우 section header를 수정할 수도 있어서 일단 이렇게 진행했다.
         
+        setupItemSelected()
+        
         todoListViewModel.fetchTodos() // request Get
         // requestGet은 Observable이고, 이를 구독하고 있다가 정상적인 Next event를 받게되면 output.todoList에 accept 시키는 동작을 한다.
+        
+        setupInputViewHandler() // input view button handler, tap gesture, keyboard detection
+        setupKeyboard()
     }
     
-    private func setTableView() {
+    private func setupTableView() {
         let refreshControl = UIRefreshControl() // 뷰를 아래로 당겨서 새로고침을 제공
         tableView.refreshControl = refreshControl
         
@@ -135,39 +142,82 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
             .disposed(by: disposeBag)
     }
     
-    private func bindTableView() { // section header 없이 cell로만 구성
-        todoListViewModel.output.todoList // BehaviorRelay<[Todo]>
-            // Driver은 MainScheduler에서 동작하는 UI Layer에 좀더 직관적으로 사용하도록 제공하는 Unit이다. Observable이다.
-            .asDriver(onErrorJustReturn: []) // 해당 Observable을 Driver로 변환하고, 에러가 발생하면 비어있는 비어있는 Observable로 변환
-            .drive(tableView.rx.items) { tableView, indexPath, item in // observable을 구독하고 이벤트를 받으면 binding을 한다.
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoListCell.identifier) as? TodoListCell else { return UITableViewCell()}
-                cell.updateUI(todo: item)
-                // MARK: delete button Tap Handler
-                cell.deleteButtonTapHandler = { [weak self] in
-                    self?.todoListViewModel.deleteTodos(todo: item)
-                }
-                return cell
-            }
+    private func setupItemSelected() {
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let detailVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoDetailViewController.identifier) as? TodoDetailViewController else { return }
+                let selectedTodo = self?.todoListViewModel.output.todoList.value[indexPath.item]
+                detailVC.todoDetailViewModel.input.todoInfo.onNext(selectedTodo)
+                detailVC.modalPresentationStyle = .fullScreen
+                self?.present(detailVC, animated: true, completion: nil)
+            })
             .disposed(by: disposeBag)
     }
-
-    @IBAction func isTodayButtonTapped(_ sender: Any) {
-        // 투데이 버튼 토글 작업
-        isTodayButton.isSelected = !isTodayButton.isSelected
+    
+    private func setupInputViewHandler() {
+        
+        isTodayButton.rx.tap // 이벤트 대상
+            .asDriver()
+            .drive(onNext: { [weak self] in // UI binding에 해당
+                self?.isTodayButton.isSelected = !((self?.isTodayButton.isSelected)!)
+            })
+            .disposed(by: disposeBag)
+        
+        addButton.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] in
+                guard let detail = self?.inputTextField.text, detail.isEmpty == false else { return }
+                let todo = Todo(detail: detail, isToday: self?.isTodayButton.isSelected ?? false)
+                self?.todoListViewModel.addTodos(todo: todo)
+                self?.inputTextField.text = ""
+                self?.isTodayButton.isSelected = false
+            })
+            .disposed(by: disposeBag)
+        
+        inputTextField.resignFirstResponder()
+        
+//        self.view.rx
+//            .tapGesture()
+//            .when(.recognized)
+//            .subscribe(onNext: { [weak self] _ in // 어차피 viewDidLoad에서 사용해서 MainThread로 동작한다.
+////                guard let self = self else { return }
+//                self?.inputTextField.resignFirstResponder()
+//            })
+//            .disposed(by: disposeBag)
     }
     
-    @IBAction func addTaskButtonTapped(_ sender: Any) {
-        guard let detail = inputTextField.text, detail.isEmpty == false else { return }
-        let todo = Todo(detail: detail, isToday: isTodayButton.isSelected)
-        todoListViewModel.addTodos(todo: todo)
-        inputTextField.text = ""
-        isTodayButton.isSelected = false
+    private func setupKeyboard() {
+//        RxKeyboard.instance.frame
+//            .drive(onNext: { frame in
+//                print("frame: \(frame)")
+//            })
+//            .disposed(by: disposeBag)
+//
+////        RxKeyboard.instance.visibleHeight
+////            .drive(onNext: { [weak self] keyboardVisibleHeight in
+////                print("keyboardVisibleHeight: \(keyboardVisibleHeight)")
+//////                self?.tableView.contentInset.bottom = -keyboardVisibleHeight // - (self?.view.safeAreaInsets.bottom)!
+////                self?.inputViewBottom.constant = keyboardVisibleHeight - (self?.view.safeAreaInsets.bottom)!
+////            })
+////            .disposed(by: disposeBag)
+//
+//        RxKeyboard.instance.willShowVisibleHeight
+//            .drive(onNext: { [weak self] keyboardVisibleHeight in
+//                print("will Show keyboardVisibleHeight: \(keyboardVisibleHeight)")
+////                self?.tableView.contentOffset.y = (self?.view.safeAreaInsets.bottom)! - keyboardVisibleHeight //-
+////                self?.inputViewBottom.constant = (self?.view.safeAreaInsets.bottom)! - keyboardVisibleHeight
+//
+//            })
+//            .disposed(by: disposeBag)
+//
+//        RxKeyboard.instance.visibleHeight
+//          .drive(onNext: { keyboardVisibleHeight in
+//            toolbarBottomConstraint.constant = -1 * keyboardVisibleHeight
+//          })
+//          .disposed(by: disposeBag)
+        
     }
-
-    // background View tap했을때 키보드 내려오게 하기
-    @IBAction func tapBG(_ sender: Any) {
-        inputTextField.resignFirstResponder()
-    }
+    
 }
 
 // rx 기반이 아닌 NotificationCenter에 의한 이벤트 전달방식
