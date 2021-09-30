@@ -9,14 +9,16 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class TodoDetailViewModel: ViewModelType {
+class TodoDetailViewModel { // : ViewModelType
+    
     struct Input {
         let todoInfo = BehaviorSubject<Todo?>(value: nil)
     }
     
     struct Output {
+//        var todo: Observable<Todo>
         var detail: Observable<String>
-        var id: Observable<Int>
+        var id: Observable<TimeInterval>
         var isDone: Observable<Bool>
         var isToday: Observable<Bool>
     }
@@ -24,8 +26,11 @@ class TodoDetailViewModel: ViewModelType {
     var input: Input
     var output: Output
     
+    
     init() {
         self.input = Input()
+        
+//        let todo = self.input.todoInfo
         
         let detail = self.input.todoInfo
             .filter { $0 != nil }
