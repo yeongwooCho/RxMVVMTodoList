@@ -30,6 +30,10 @@
 		3D79ADF926F7477A008F0CE0 /* RxMVVMTodoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3D79ADF726F7477A008F0CE0 /* RxMVVMTodoList.xcdatamodeld */; };
 		3D79ADFB26F7477B008F0CE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D79ADFA26F7477B008F0CE0 /* Assets.xcassets */; };
 		3D79ADFE26F7477B008F0CE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D79ADFC26F7477B008F0CE0 /* LaunchScreen.storyboard */; };
+		3DB7C9352704301D007CCAB8 /* RegisterTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7C9342704301D007CCAB8 /* RegisterTodoViewController.swift */; };
+		3DB7C93A270436A5007CCAB8 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7C939270436A5007CCAB8 /* Calendar.swift */; };
+		3DB7C93C2704380D007CCAB8 /* TodoRegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7C93B2704380D007CCAB8 /* TodoRegisterViewModel.swift */; };
+		3DB7C93E27045E71007CCAB8 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7C93D27045E71007CCAB8 /* CalendarViewController.swift */; };
 		3DD5583C26FC3FC7000778D4 /* TestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DD5583B26FC3FC7000778D4 /* TestTableViewCell.swift */; };
 		56D5DCE45921F20885D76211 /* Pods_RxMVVMTodoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E8703E70AD41C58EE3CCB9C /* Pods_RxMVVMTodoList.framework */; };
 /* End PBXBuildFile section */
@@ -60,6 +64,10 @@
 		3D79ADFA26F7477B008F0CE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D79ADFD26F7477B008F0CE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D79ADFF26F7477B008F0CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DB7C9342704301D007CCAB8 /* RegisterTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTodoViewController.swift; sourceTree = "<group>"; };
+		3DB7C939270436A5007CCAB8 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		3DB7C93B2704380D007CCAB8 /* TodoRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoRegisterViewModel.swift; sourceTree = "<group>"; };
+		3DB7C93D27045E71007CCAB8 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		3DD5583B26FC3FC7000778D4 /* TestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTableViewCell.swift; sourceTree = "<group>"; };
 		442BA42B5A2744F0AA3A4155 /* Pods-RxMVVMTodoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxMVVMTodoList.release.xcconfig"; path = "Target Support Files/Pods-RxMVVMTodoList/Pods-RxMVVMTodoList.release.xcconfig"; sourceTree = "<group>"; };
 		5E8703E70AD41C58EE3CCB9C /* Pods_RxMVVMTodoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxMVVMTodoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,8 +98,11 @@
 			isa = PBXGroup;
 			children = (
 				3D79ADF426F7477A008F0CE0 /* Main.storyboard */,
+				3D44BFB426FB7E5900D9D9CF /* TodoDetailViewController.swift */,
 				3D76C95E26F7570D008F6E3B /* TodoListViewController.swift */,
 				3D76C96226F7573D008F6E3B /* TodoListCell.swift */,
+				3DB7C9342704301D007CCAB8 /* RegisterTodoViewController.swift */,
+				3DB7C93D27045E71007CCAB8 /* CalendarViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -99,7 +110,9 @@
 		3D76C95726F75686008F6E3B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				3D44BFB626FB7F3100D9D9CF /* TodoDetailViewModel.swift */,
 				3D76C95C26F756FD008F6E3B /* TodoViewModel.swift */,
+				3DB7C93B2704380D007CCAB8 /* TodoRegisterViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -131,9 +144,7 @@
 				3D44BFC026FC3B8200D9D9CF /* TestTableViewController.swift */,
 				3DD5583B26FC3FC7000778D4 /* TestTableViewCell.swift */,
 				3D76C96026F75723008F6E3B /* TodoListHeaderView.swift */,
-				3D44BFB426FB7E5900D9D9CF /* TodoDetailViewController.swift */,
 				3D76C96626F75A9B008F6E3B /* withoutRxVC.swift */,
-				3D44BFB626FB7F3100D9D9CF /* TodoDetailViewModel.swift */,
 				3D44BFB826FC0EFD00D9D9CF /* TestHeader.swift */,
 			);
 			path = Test;
@@ -160,6 +171,7 @@
 		3D79ADED26F7477A008F0CE0 /* RxMVVMTodoList */ = {
 			isa = PBXGroup;
 			children = (
+				3DB7C936270432C7007CCAB8 /* Calendar */,
 				3D76C96E26F75E36008F6E3B /* Test */,
 				3D76C95926F75696008F6E3B /* NetworkService */,
 				3D76C95826F75690008F6E3B /* Model */,
@@ -174,6 +186,14 @@
 				3D44BFB226FB7DB300D9D9CF /* UIComponents.swift */,
 			);
 			path = RxMVVMTodoList;
+			sourceTree = "<group>";
+		};
+		3DB7C936270432C7007CCAB8 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				3DB7C939270436A5007CCAB8 /* Calendar.swift */,
+			);
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		D67AA4B12086E4230E43115B /* Pods */ = {
@@ -303,8 +323,10 @@
 				3D44BFB326FB7DB300D9D9CF /* UIComponents.swift in Sources */,
 				3D44BFB526FB7E5900D9D9CF /* TodoDetailViewController.swift in Sources */,
 				3D79ADF926F7477A008F0CE0 /* RxMVVMTodoList.xcdatamodeld in Sources */,
+				3DB7C93A270436A5007CCAB8 /* Calendar.swift in Sources */,
 				3D76C96526F759B4008F6E3B /* Alamofire+Rx.swift in Sources */,
 				3DD5583C26FC3FC7000778D4 /* TestTableViewCell.swift in Sources */,
+				3DB7C93E27045E71007CCAB8 /* CalendarViewController.swift in Sources */,
 				3D44BFC126FC3B8200D9D9CF /* TestTableViewController.swift in Sources */,
 				3D79ADEF26F7477A008F0CE0 /* AppDelegate.swift in Sources */,
 				3D79ADF126F7477A008F0CE0 /* SceneDelegate.swift in Sources */,
@@ -318,7 +340,9 @@
 				3D76C96926F75DC4008F6E3B /* ObservableTest.swift in Sources */,
 				3D44BFB126FB4AE600D9D9CF /* TestViewModel.swift in Sources */,
 				3D44BFB926FC0EFD00D9D9CF /* TestHeader.swift in Sources */,
+				3DB7C93C2704380D007CCAB8 /* TodoRegisterViewModel.swift in Sources */,
 				3D76C96D26F75E18008F6E3B /* ObservableViewModel.swift in Sources */,
+				3DB7C9352704301D007CCAB8 /* RegisterTodoViewController.swift in Sources */,
 				3D76C96326F7573D008F6E3B /* TodoListCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
