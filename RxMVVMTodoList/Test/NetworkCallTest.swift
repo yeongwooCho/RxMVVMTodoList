@@ -10,7 +10,13 @@ import RxSwift
 import RxCocoa
 import Alamofire
 
-class NetworkCallTest {
+protocol NetworkManagerProtocol {
+//    associatedtype T
+    func requestGet(completion: @escaping ([Todo]) -> Void) -> Observable<[Todo]>
+}
+
+class NetworkCallTest: NetworkManagerProtocol {
+//    typealias T = Todo
     
     enum GetFailureReason: Int, Error {
         case unAuthorized = 401
