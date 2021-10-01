@@ -116,33 +116,7 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
             .asDriver(onErrorJustReturn: [])
             .drive(self.tableView.rx.items(dataSource: self.todoDatasource))
             .disposed(by: self.disposeBag)
-        
-        var todays: TodoSectionModel = TodoSectionModel.init(model: "Today", items: [])
-        var upcoming: TodoSectionModel = TodoSectionModel.init(model: "Upcoming", items: [])
-        
-        // todoList를 구독하고 있다. todos 값이 존재함을 확인하면 sectionTodoList에 accept하여 바로 위의 binding을 실행한다.
-        todoListViewModel.output.todoList
-            .subscribe(onNext: { todos in
-                if todos == [] { // 이게 진짜 없는건지 늦게 불러서 없는 건지가 애매함!!
-                    todays = TodoSectionModel(model: "Today", items: [])
-                    upcoming = TodoSectionModel(model: "Upcoming", items: [Todo(detail: "할일이 없음", isToday: false)])
-                } else {
-                    todays = TodoSectionModel(model: "Today", items: todos.filter{ $0.isToday == true })
-                    upcoming = TodoSectionModel(model: "Upcoming", items: todos.filter{ $0.isToday == false })
-                }
-                self.todoListViewModel.output.sectionTodoList.accept([todays, upcoming]) // 처음값 초기화
-                // 이렇게 되면 sectionTodoList의 이벤트가 발생하고 이는 위의 sectionTodoList를 구독하는 코드로 이벤트가 전달된다.
-            }, onError: { error in
-                print("error: \(error.localizedDescription)")
-            }, onCompleted: {
-                print("completed")
-            }, onDisposed: {
-                print("disposed")
-            })
-            .disposed(by: disposeBag)
     }
-    
-    
     
     private func setupItemSelected() {
         tableView.rx.itemSelected
