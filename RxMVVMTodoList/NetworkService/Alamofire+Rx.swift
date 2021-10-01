@@ -72,7 +72,7 @@ class AlamofireRxCall: RxNetworkCallInterface {
                     switch response.result {
                     case .success:
                         observer.onNext(params)
-                        observer.onCompleted()
+//                        observer.onCompleted()
                         completion(params)
                     case .failure(let error):
                         observer.onError(error)
