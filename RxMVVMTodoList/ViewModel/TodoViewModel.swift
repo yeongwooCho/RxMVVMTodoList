@@ -60,9 +60,20 @@ class TodoViewModel: ViewModelType {
                 (self?.apiService.requestGet(completion: { todos in print("여기는 setReloadTrigger: \(todos)")}))!
             }
             .do(onNext: { [weak self] _ in self?.output.refreshing.onNext(false) }) // refresh
-            .bind(to: self.output.todoList) // BehaviorRelay<[Todo]> 에 binding
+            .bind(to: self.output.todoList)
             .disposed(by: disposeBag)
-        // refreshing에 true 이벤트 3초 유지, requestGet, refreshing에 false, 가져온 데이터 todoList에 binding.
+    }
+    
+    private func setSubscribedTodoList() { // todoList <-> sectionTodoLabel
+        self.output.todoList
+            .subscribe(onNext: { [weak self] todos in
+                let dicTodos = Dictionary.init(grouping: todos, by: {$0.deadlineDate})
+                let sectionModelTodos = dicTodos.map { (key, value) in
+                    SectionModel.init(model: key, items: value)
+                }
+                self?.output.sectionTodoList.accept(sectionModelTodos)
+            })
+            .disposed(by: disposeBag)
     }
     
     func fetchTodos() { // ViewController에서 호출할 것, 네트워크 콜을 VC에서 VM에게 요청하는 곳이다.
