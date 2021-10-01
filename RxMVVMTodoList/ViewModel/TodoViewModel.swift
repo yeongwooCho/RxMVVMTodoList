@@ -48,19 +48,17 @@ class TodoViewModel: ViewModelType {
         self.apiService = apiService
         self.disposeBag = DisposeBag()
         setReloadTrigger()
+        setSubscribedTodoList()
     }
     
-    // strong reference cycle의 발생을 막기위해 closure내부에서 self를 사용하면 [weak self]을 항상 명시해주자
-    // 이러면 self? 으로 사용하면 된다.
     private func setReloadTrigger() { // ViewModel 생성시 호출된다.
-        // doOn은 구독 시점이 아닌 이벤트 발생시점에 처리할 작업이 있을때 사용한다.
+        // doOn은 구독 시점이 아닌 이벤트 발생시점에 처리할 작업이 있을때 사용한다. 구독과는 연관이 없다.
         self.input.reloadTrigger
-            // 특정 이벤트가 발생했을때 무엇인가 하고싶다면 doOn연산자로 콜백함수를 등록하면 된다. 이때 실제 구독에는 아무런 영향이 없다.
             .do(onNext: { [weak self] in self?.output.refreshing.onNext(true) })
             .delay(.seconds(3), scheduler: MainScheduler.instance)
-            .flatMapLatest { [weak self] in // requestGet의 이벤트를 기다리게 된다. 받아올때 까지 이벤트는 발생하지 않는다.
-                (self?.apiService.requestGet(completion: { todos in print("여기는 setReloadTrigger: \(todos)")}))! // 생성때 sequence를 만들고 이벤트 받을때 sequence를 만든다.
-            }// next 이벤트가 발생했다는건 --> get으로 데이터를 받아 왔다는 것 --> refreshing end --> output.todoList에 binding
+            .flatMapLatest { [weak self] in
+                (self?.apiService.requestGet(completion: { todos in print("여기는 setReloadTrigger: \(todos)")}))!
+            }
             .do(onNext: { [weak self] _ in self?.output.refreshing.onNext(false) }) // refresh
             .bind(to: self.output.todoList) // BehaviorRelay<[Todo]> 에 binding
             .disposed(by: disposeBag)
@@ -80,15 +78,20 @@ class TodoViewModel: ViewModelType {
             }).disposed(by: disposeBag)
     }
     
+    // value로 데이터 가져오는거 원래 안됨 -> 이거도 안되고 있는거임// 수정바람
     func addTodos(todo: Todo) {
         var todos = self.output.todoList.value
+        print("addTodos1 todos \(todos)")
         todos.append(todo)
+        print("addTodos2 todos \(todos)")
         self.putTodos(todos: todos)
     }
     
     func deleteTodos(todo: Todo) {
         var todos = self.output.todoList.value
+        print("deleteTodos1 todos \(todos)")
         todos = todos.filter{ $0.id != todo.id }
+        print("deleteTodos2 todos \(todos)")
         self.putTodos(todos: todos)
     }
     
@@ -112,4 +115,3 @@ class TodoViewModel: ViewModelType {
 // VM은 apiService에 repository를 갖고 있고, observable을 구독하고 있다. 그럼 실행시키고 해당 이벤트를 콜백으로 받아 이를 처리한다.
 // 이벤트 처리 구조는 VM에 있는 output.todoList에 accept하는 과정만 하면 된다.
 // 왜? output.todoList를 View가 구독하고 있기 때문이다.
-
