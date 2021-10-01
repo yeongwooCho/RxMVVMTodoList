@@ -18,10 +18,6 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
     typealias TodoDataSource = RxTableViewSectionedReloadDataSource<TodoSectionModel> // RxDataSources에서 제공하는 Sectioned Reload
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var inputViewBottom: NSLayoutConstraint!
-    @IBOutlet weak var inputTextField: UITextField!
-    @IBOutlet weak var isTodayButton: UIButton!
-    @IBOutlet weak var addButton: UIButton!
 
     let todoListViewModel = TodoViewModel() // 여기서 ViewModel 생성, View는 ViewModel을 갖고있다.
     let disposeBag = DisposeBag() // 구독한 뒤 더이상 사용 안하면 리소스 반환하는 쓰레기통
@@ -49,13 +45,7 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // keyboard Detection
-        // MARK: 이거는 Rx기반 Observable, Observer을 통한 이벤트 전달 방법 존재한지 확인하기
-        // 키보드 등장, 나감을 observe하다가 발생하면 #selector에 해당하는 함수를 실행한다.
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustInputView), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustInputView), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+
         // MARK: // delegate 사용을 위한 선언, 솔직하게 왜있는지 모름
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -76,6 +66,7 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         // .asDriver(onErrorJustReturn: []) 그래서 여기에 에러가 발생하면 []를 리턴하고, 아니면 [Todo]를 Driver 타입으로 반환한다.
         // .drive(tableView.rx.items) observable을 구독하는 것이다. 이벤트를 받으면 tableview rx items에 binding을 한다.
         
+        
         sectionHeaderBindTableView() // yes section
         // 일반적인 TableView의 사용은 위와같이 간단하다. 하지만, section Header을 binding할 경우 Delegate patten을 사용해야 한다.
         // viewModel.output.todoList를 구독하다가 이벤트가 발생하면 viewModel.output.sectionTodoList에 이벤트를 전달한다.
@@ -88,8 +79,17 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         todoListViewModel.fetchTodos() // request Get
         // requestGet은 Observable이고, 이를 구독하고 있다가 정상적인 Next event를 받게되면 output.todoList에 accept 시키는 동작을 한다.
         
-        setupInputViewHandler() // input view button handler, tap gesture, keyboard detection
-        setupKeyboard()
+//        setupInputViewHandler() // input view button handler, tap gesture, keyboard detection
+        
+//        let todo1 = Todo(detail: "1안녀하세요", isDone: true, startDate: "2020-01-01", deadlineDate: "2021-02-01")
+//        let todo2 = Todo(detail: "2안녀하세요", isDone: false, startDate: "2020-04-01", deadlineDate: "2021-05-01")
+//        let todo3 = Todo(detail: "3안녀하세요", isDone: true, startDate: "2020-07-01", deadlineDate: "2021-08-01")
+//        let todo4 = Todo(detail: "4안녀하세요", isDone: false, startDate: "2020-10-01", deadlineDate: "2021-11-01")
+//        todoListViewModel.addTodos(todo: todo1)
+//        todoListViewModel.addTodos(todo: todo2)
+//        todoListViewModel.addTodos(todo: todo3)
+//        todoListViewModel.addTodos(todo: todo4)
+        
     }
     
     private func setupTableView() {
@@ -142,6 +142,8 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
             .disposed(by: disposeBag)
     }
     
+    
+    
     private func setupItemSelected() {
         tableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
@@ -184,56 +186,5 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
 //                self?.inputTextField.resignFirstResponder()
 //            })
 //            .disposed(by: disposeBag)
-    }
-    
-    private func setupKeyboard() {
-//        RxKeyboard.instance.frame
-//            .drive(onNext: { frame in
-//                print("frame: \(frame)")
-//            })
-//            .disposed(by: disposeBag)
-//
-////        RxKeyboard.instance.visibleHeight
-////            .drive(onNext: { [weak self] keyboardVisibleHeight in
-////                print("keyboardVisibleHeight: \(keyboardVisibleHeight)")
-//////                self?.tableView.contentInset.bottom = -keyboardVisibleHeight // - (self?.view.safeAreaInsets.bottom)!
-////                self?.inputViewBottom.constant = keyboardVisibleHeight - (self?.view.safeAreaInsets.bottom)!
-////            })
-////            .disposed(by: disposeBag)
-//
-//        RxKeyboard.instance.willShowVisibleHeight
-//            .drive(onNext: { [weak self] keyboardVisibleHeight in
-//                print("will Show keyboardVisibleHeight: \(keyboardVisibleHeight)")
-////                self?.tableView.contentOffset.y = (self?.view.safeAreaInsets.bottom)! - keyboardVisibleHeight //-
-////                self?.inputViewBottom.constant = (self?.view.safeAreaInsets.bottom)! - keyboardVisibleHeight
-//
-//            })
-//            .disposed(by: disposeBag)
-//
-//        RxKeyboard.instance.visibleHeight
-//          .drive(onNext: { keyboardVisibleHeight in
-//            toolbarBottomConstraint.constant = -1 * keyboardVisibleHeight
-//          })
-//          .disposed(by: disposeBag)
-        
-    }
-    
-}
-
-// rx 기반이 아닌 NotificationCenter에 의한 이벤트 전달방식
-// MARK: rx 기반 있는지 확인하고, 적용하기
-extension TodoListViewController {
-    @objc private func adjustInputView(noti: Notification) {
-        guard let userInfo = noti.userInfo else { return }
-        // 키보드 높이에 따른 인풋뷰 위치 변경
-        guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-
-        if noti.name == UIResponder.keyboardWillShowNotification {
-            let adjustmentHeight = keyboardFrame.height - view.safeAreaInsets.bottom
-            inputViewBottom.constant = adjustmentHeight
-        } else {
-            inputViewBottom.constant = 0
-        }
-        print("---> Keyboard End Frame: \(keyboardFrame)")
-    }
+//    }
 }
