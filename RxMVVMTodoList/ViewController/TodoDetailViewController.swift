@@ -23,7 +23,7 @@ class TodoDetailViewController: UIViewController {
     let closeButton = UIButton()
     
     
-    let todoDetailViewModel = TodoDetailViewModel()
+//    let todoDetailViewModel = TodoDetailViewModel()
     
     let disposeBag = DisposeBag()
     
@@ -42,28 +42,28 @@ class TodoDetailViewController: UIViewController {
     }
     
     func bindUI() {
-        todoDetailViewModel.output.detail
-            .subscribe(onNext: { [weak self] detail in
-                self?.detailLabel.text = detail
-            })
-            .disposed(by: disposeBag)
-        
-        todoDetailViewModel.output.id
-            .subscribe(onNext: { [weak self] id in
-                self?.idLabel.text = String(id)
-            })
-            .disposed(by: disposeBag)
-        
-        todoDetailViewModel.output.isDone
-            .subscribe(onNext: { [weak self] isDone in
-                self?.isDoneLabel.text = String(isDone)
-            })
-            .disposed(by: disposeBag)
-        
-        todoDetailViewModel.output.isToday
-            .subscribe(onNext: { [weak self] isToday in
-                self?.isTodayLabel.text = String(isToday)
-            })
-            .disposed(by: disposeBag)
+//        todoDetailViewModel.output.detail
+//            .subscribe(onNext: { [weak self] detail in
+//                self?.detailLabel.text = detail
+//            })
+//            .disposed(by: disposeBag)
+//        
+//        todoDetailViewModel.output.id
+//            .subscribe(onNext: { [weak self] id in
+//                self?.idLabel.text = String(id)
+//            })
+//            .disposed(by: disposeBag)
+//        
+//        todoDetailViewModel.output.isDone
+//            .subscribe(onNext: { [weak self] isDone in
+//                self?.isDoneLabel.text = String(isDone)
+//            })
+//            .disposed(by: disposeBag)
+//        
+//        todoDetailViewModel.output.isToday
+//            .subscribe(onNext: { [weak self] isToday in
+//                self?.isTodayLabel.text = String(isToday)
+//            })
+//            .disposed(by: disposeBag)
     }
 }
