@@ -79,16 +79,6 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         todoListViewModel.fetchTodos() // request Get
         // requestGet은 Observable이고, 이를 구독하고 있다가 정상적인 Next event를 받게되면 output.todoList에 accept 시키는 동작을 한다.
         
-//        setupInputViewHandler() // input view button handler, tap gesture, keyboard detection
-        
-//        let todo1 = Todo(detail: "1안녀하세요", isDone: true, startDate: "2020-01-01", deadlineDate: "2021-02-01")
-//        let todo2 = Todo(detail: "2안녀하세요", isDone: false, startDate: "2020-04-01", deadlineDate: "2021-05-01")
-//        let todo3 = Todo(detail: "3안녀하세요", isDone: true, startDate: "2020-07-01", deadlineDate: "2021-08-01")
-//        let todo4 = Todo(detail: "4안녀하세요", isDone: false, startDate: "2020-10-01", deadlineDate: "2021-11-01")
-//        todoListViewModel.addTodos(todo: todo1)
-//        todoListViewModel.addTodos(todo: todo2)
-//        todoListViewModel.addTodos(todo: todo3)
-//        todoListViewModel.addTodos(todo: todo4)
         
     }
     
