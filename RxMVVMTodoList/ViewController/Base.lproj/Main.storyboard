@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rUq-If-zRX">
-                                <rect key="frame" x="0.0" y="44" width="414" height="709"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodoListCell" rowHeight="70" id="Rzq-kZ-OGp" customClass="TodoListCell" customModule="RxMVVMTodoList" customModuleProvider="target">
@@ -102,68 +102,19 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMv-pb-brr">
-                                <rect key="frame" x="0.0" y="753" width="414" height="60"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="I want to..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3nn-MD-aMU">
-                                        <rect key="frame" x="16" y="13" width="282" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBO-LQ-tWZ">
-                                        <rect key="frame" x="308" y="12.5" width="45" height="35"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="Amc-IO-3K0"/>
-                                            <constraint firstAttribute="width" constant="45" id="pxY-YU-H1k"/>
-                                        </constraints>
-                                        <state key="normal" title="Today">
-                                            <color key="titleColor" systemColor="systemGrayColor"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlM-kq-AhC">
-                                        <rect key="frame" x="363" y="12.5" width="35" height="35"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="4GA-gb-A1C"/>
-                                            <constraint firstAttribute="width" constant="35" id="SHc-YY-pR3"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" image="plus" catalog="system">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                <constraints>
-                                    <constraint firstItem="hlM-kq-AhC" firstAttribute="centerY" secondItem="WMv-pb-brr" secondAttribute="centerY" id="3iI-Qh-R5N"/>
-                                    <constraint firstItem="hlM-kq-AhC" firstAttribute="leading" secondItem="EBO-LQ-tWZ" secondAttribute="trailing" constant="10" id="EiS-5m-cFK"/>
-                                    <constraint firstAttribute="trailing" secondItem="hlM-kq-AhC" secondAttribute="trailing" constant="16" id="FGM-II-bYa"/>
-                                    <constraint firstItem="EBO-LQ-tWZ" firstAttribute="centerY" secondItem="WMv-pb-brr" secondAttribute="centerY" id="JKe-wM-rLs"/>
-                                    <constraint firstItem="3nn-MD-aMU" firstAttribute="centerY" secondItem="WMv-pb-brr" secondAttribute="centerY" id="OlG-gM-eTH"/>
-                                    <constraint firstAttribute="height" constant="60" id="Rce-bn-4Yh"/>
-                                    <constraint firstItem="3nn-MD-aMU" firstAttribute="leading" secondItem="WMv-pb-brr" secondAttribute="leading" constant="16" id="Z3u-oc-7AU"/>
-                                    <constraint firstItem="EBO-LQ-tWZ" firstAttribute="leading" secondItem="3nn-MD-aMU" secondAttribute="trailing" constant="10" id="xiT-9S-IdO"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YS5-CQ-3aq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="YS5-CQ-3aq" firstAttribute="bottom" secondItem="rUq-If-zRX" secondAttribute="bottom" id="FUA-bj-waM"/>
                             <constraint firstItem="rUq-If-zRX" firstAttribute="top" secondItem="YS5-CQ-3aq" secondAttribute="top" id="Pif-N4-jcL"/>
-                            <constraint firstItem="YS5-CQ-3aq" firstAttribute="trailing" secondItem="WMv-pb-brr" secondAttribute="trailing" id="bTC-sv-wF5"/>
-                            <constraint firstItem="YS5-CQ-3aq" firstAttribute="bottom" secondItem="WMv-pb-brr" secondAttribute="bottom" id="d25-LD-CG6"/>
                             <constraint firstItem="rUq-If-zRX" firstAttribute="leading" secondItem="YS5-CQ-3aq" secondAttribute="leading" id="fFC-TO-wY5"/>
-                            <constraint firstItem="WMv-pb-brr" firstAttribute="leading" secondItem="YS5-CQ-3aq" secondAttribute="leading" id="fyF-Mg-D2l"/>
                             <constraint firstItem="YS5-CQ-3aq" firstAttribute="trailing" secondItem="rUq-If-zRX" secondAttribute="trailing" id="mKg-FC-vcB"/>
-                            <constraint firstItem="WMv-pb-brr" firstAttribute="top" secondItem="rUq-If-zRX" secondAttribute="bottom" id="x2n-uz-QCi"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Tasks" image="checkmark.circle.fill" catalog="system" id="9Mz-Xa-Dy7"/>
                     <connections>
-                        <outlet property="addButton" destination="hlM-kq-AhC" id="nU2-Iq-YLv"/>
-                        <outlet property="inputTextField" destination="3nn-MD-aMU" id="UeD-L6-Qqs"/>
-                        <outlet property="inputViewBottom" destination="d25-LD-CG6" id="XGp-6z-8zy"/>
-                        <outlet property="isTodayButton" destination="EBO-LQ-tWZ" id="NbA-ux-TRi"/>
                         <outlet property="tableView" destination="rUq-If-zRX" id="on1-Or-qsN"/>
                     </connections>
                 </viewController>
@@ -174,7 +125,7 @@
         <!--Add Tasks-->
         <scene sceneID="Y7e-jc-Ald">
             <objects>
-                <viewController id="1Ts-sJ-VI1" customClass="RegisterTodoViewController" customModule="RxMVVMTodoList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RegisterTodoViewController" id="1Ts-sJ-VI1" customClass="RegisterTodoViewController" customModule="RxMVVMTodoList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GJc-hv-Plg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -186,27 +137,27 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Task" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T1m-Ts-BEM">
-                                                <rect key="frame" x="143" y="42" width="128" height="36"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                                <rect key="frame" x="154" y="45" width="106.5" height="30"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fdi-sS-ykH">
-                                                <rect key="frame" x="334" y="35" width="50" height="50"/>
+                                                <rect key="frame" x="349" y="35" width="50" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="XfB-bo-Jky"/>
                                                     <constraint firstAttribute="width" constant="50" id="aaU-Pk-RE9"/>
                                                 </constraints>
                                                 <color key="tintColor" systemColor="systemRedColor"/>
-                                                <state key="normal" image="arrow.counterclockwise" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
+                                                <state key="normal" image="plus" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30" scale="large"/>
                                                 </state>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                         <constraints>
                                             <constraint firstItem="T1m-Ts-BEM" firstAttribute="centerX" secondItem="55L-Xs-5mb" secondAttribute="centerX" id="3od-Pt-lkS"/>
-                                            <constraint firstAttribute="trailing" secondItem="Fdi-sS-ykH" secondAttribute="trailing" constant="30" id="Ccb-l3-34C"/>
+                                            <constraint firstAttribute="trailing" secondItem="Fdi-sS-ykH" secondAttribute="trailing" constant="15" id="Ccb-l3-34C"/>
                                             <constraint firstAttribute="height" constant="120" id="Ddt-UW-3Gf"/>
                                             <constraint firstItem="Fdi-sS-ykH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="T1m-Ts-BEM" secondAttribute="trailing" constant="10" id="V8v-xs-PlL"/>
                                             <constraint firstItem="Fdi-sS-ykH" firstAttribute="centerY" secondItem="55L-Xs-5mb" secondAttribute="centerY" id="WAS-78-F3d"/>
@@ -429,7 +380,7 @@
         <!--Calendar View Controller-->
         <scene sceneID="OEg-jr-whW">
             <objects>
-                <viewController id="PGi-Fm-WJ8" customClass="CalendarViewController" customModule="RxMVVMTodoList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CalendarViewController" id="PGi-Fm-WJ8" customClass="CalendarViewController" customModule="RxMVVMTodoList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NYb-so-lMF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -438,31 +389,45 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="120"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oI4-Zz-5Qe">
-                                        <rect key="frame" x="136" y="42" width="142" height="36"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                                        <rect key="frame" x="148" y="45" width="118.5" height="30"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KXZ-kW-dh4">
+                                        <rect key="frame" x="349" y="35" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="HUr-7F-yUH"/>
+                                            <constraint firstAttribute="width" constant="50" id="Spc-OC-idC"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="systemRedColor"/>
+                                        <state key="normal" image="checkmark" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30" scale="large"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="6wK-1d-Q7D"/>
+                                    <constraint firstAttribute="trailing" secondItem="KXZ-kW-dh4" secondAttribute="trailing" constant="15" id="En6-hm-AfD"/>
                                     <constraint firstItem="oI4-Zz-5Qe" firstAttribute="centerX" secondItem="sTh-pR-Mku" secondAttribute="centerX" id="Jbc-QU-ZC8"/>
+                                    <constraint firstItem="KXZ-kW-dh4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="oI4-Zz-5Qe" secondAttribute="trailing" constant="10" id="L6s-IU-WvP"/>
+                                    <constraint firstItem="KXZ-kW-dh4" firstAttribute="centerY" secondItem="oI4-Zz-5Qe" secondAttribute="centerY" id="eun-pA-Slc"/>
                                     <constraint firstItem="oI4-Zz-5Qe" firstAttribute="centerY" secondItem="sTh-pR-Mku" secondAttribute="centerY" id="hS4-ec-9PB"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eEk-CE-u0J">
-                                <rect key="frame" x="0.0" y="164" width="414" height="398"/>
+                                <rect key="frame" x="15" y="164" width="384" height="698"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bf4-rA-fJt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Bf4-rA-fJt" firstAttribute="trailing" secondItem="eEk-CE-u0J" secondAttribute="trailing" id="ANA-M9-ZRa"/>
+                            <constraint firstItem="Bf4-rA-fJt" firstAttribute="trailing" secondItem="eEk-CE-u0J" secondAttribute="trailing" constant="15" id="ANA-M9-ZRa"/>
                             <constraint firstItem="sTh-pR-Mku" firstAttribute="leading" secondItem="Bf4-rA-fJt" secondAttribute="leading" id="OwX-8E-td2"/>
-                            <constraint firstItem="Bf4-rA-fJt" firstAttribute="bottom" secondItem="eEk-CE-u0J" secondAttribute="bottom" constant="300" id="iN1-oH-V5Z"/>
-                            <constraint firstItem="eEk-CE-u0J" firstAttribute="leading" secondItem="Bf4-rA-fJt" secondAttribute="leading" id="ozT-Ds-5P9"/>
+                            <constraint firstItem="Bf4-rA-fJt" firstAttribute="bottom" secondItem="eEk-CE-u0J" secondAttribute="bottom" id="iN1-oH-V5Z"/>
+                            <constraint firstItem="eEk-CE-u0J" firstAttribute="leading" secondItem="Bf4-rA-fJt" secondAttribute="leading" constant="15" id="ozT-Ds-5P9"/>
                             <constraint firstItem="eEk-CE-u0J" firstAttribute="top" secondItem="sTh-pR-Mku" secondAttribute="bottom" id="qYn-ep-0mQ"/>
                             <constraint firstItem="sTh-pR-Mku" firstAttribute="top" secondItem="Bf4-rA-fJt" secondAttribute="top" id="vFh-rl-g7d"/>
                             <constraint firstItem="sTh-pR-Mku" firstAttribute="trailing" secondItem="Bf4-rA-fJt" secondAttribute="trailing" id="zO1-fI-6Kn"/>
@@ -471,6 +436,8 @@
                     <navigationItem key="navigationItem" id="QFt-QO-Dbf"/>
                     <connections>
                         <outlet property="calendar" destination="eEk-CE-u0J" id="joz-N6-0uj"/>
+                        <outlet property="selectButton" destination="KXZ-kW-dh4" id="orF-Pz-iAX"/>
+                        <outlet property="titleLabel" destination="oI4-Zz-5Qe" id="XgN-qQ-boP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AjV-BM-O5J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -479,7 +446,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.counterclockwise" catalog="system" width="115" height="128"/>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="gear" catalog="system" width="128" height="119"/>
@@ -490,9 +457,6 @@
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemIndigoColor">
             <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
