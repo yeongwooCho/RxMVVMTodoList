@@ -12,12 +12,9 @@ import RxDataSources
 import Alamofire
 
 protocol ViewModelType {
-    // Input, Output이라는 type이 있다.
-    // 어떤 타입인지 프로토콜을 채택하면 정의 해야한다.
     associatedtype Input
     associatedtype Output
     
-    // 그 타입을 가진 변수들이다.
     var input: Input { get }
     var output: Output { get }
     var apiService: RxNetworkCallInterface { get }
@@ -88,6 +85,8 @@ class TodoViewModel: ViewModelType {
                 print("disposed. 리소스 반환")
             }).disposed(by: disposeBag)
     }
+    
+    
     
     // value로 데이터 가져오는거 원래 안됨 -> 이거도 안되고 있는거임// 수정바람
     func addTodos(todo: Todo) {
