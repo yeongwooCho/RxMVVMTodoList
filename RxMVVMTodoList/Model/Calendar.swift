@@ -5,15 +5,19 @@
 //  Created by 조영우 on 2021/09/29.
 //
 
+import UIKit
 import Foundation
 import FSCalendar
 
 class Calendar {
-    
     private var calendar: FSCalendar = FSCalendar()
     
     init(frameView: UIView) {
         self.calendar = setLayoutCalendar(frameView: frameView)
+    }
+    
+    deinit {
+        self.calendar = FSCalendar()
     }
     
     func setLayoutCalendar(frameView: UIView) -> FSCalendar {
