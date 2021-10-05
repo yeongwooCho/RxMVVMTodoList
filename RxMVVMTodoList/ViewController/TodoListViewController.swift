@@ -109,39 +109,17 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private func setupItemSelected() {
-//        tableView.rx.itemSelected
-//            .subscribe(onNext: { [weak self] indexPath in
-//                guard let detailVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoDetailViewController.identifier) as? TodoDetailViewController else { return }
-//                let selectedTodo = self?.todoListViewModel.output.todoList.value[indexPath.item]
-//                detailVC.todoDetailViewModel.input.todoInfo.onNext(selectedTodo)
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let detailVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoDetailViewController.identifier) as? TodoDetailViewController else { return }
+                let selectedTodo = self?.todoListViewModel.output.todoList.value[indexPath.item]
+                detailVC.todoDetailViewModel.input.todoInfo.onNext(selectedTodo)
 //                detailVC.modalPresentationStyle = .fullScreen
-//                self?.present(detailVC, animated: true, completion: nil)
-//            })
-//            .disposed(by: disposeBag)
+                self?.present(detailVC, animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
     }
-    
-//    private func setupInputViewHandler() {
-//
-//        isTodayButton.rx.tap // 이벤트 대상
-//            .asDriver()
-//            .drive(onNext: { [weak self] in // UI binding에 해당
-//                self?.isTodayButton.isSelected = !((self?.isTodayButton.isSelected)!)
-//            })
-//            .disposed(by: disposeBag)
-//
-//        addButton.rx.tap
-//            .asDriver()
-//            .drive(onNext: { [weak self] in
-//                guard let detail = self?.inputTextField.text, detail.isEmpty == false else { return }
-//                let todo = Todo(detail: detail, isToday: self?.isTodayButton.isSelected ?? false)
-//                self?.todoListViewModel.addTodos(todo: todo)
-//                self?.inputTextField.text = ""
-//                self?.isTodayButton.isSelected = false
-//            })
-//            .disposed(by: disposeBag)
-//
-//        inputTextField.resignFirstResponder()
-//
+
 //        self.view.rx
 //            .tapGesture()
 //            .when(.recognized)
