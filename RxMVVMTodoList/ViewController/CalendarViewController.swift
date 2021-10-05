@@ -60,10 +60,10 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         if self.titleText == "Start Date" {
             RegisterTodoViewModel.shared.output.startDateRelay
-                .accept(Date.dateString(date: date))
+                .accept(Date.dateToString(date: date, isTime: false))
         } else {
             RegisterTodoViewModel.shared.output.deadlineDateRelay
-                .accept(Date.dateString(date: date))
+                .accept(Date.dateToString(date: date, isTime: false))
         }
     }
 }
