@@ -30,7 +30,6 @@ class RegisterTodoViewController: UIViewController {
         super.viewDidLoad()
         setupDateLabel()
         setupButton()
-        setupTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,16 +70,13 @@ class RegisterTodoViewController: UIViewController {
         
         addTaskButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                guard let detail = self?.titleTextField.text, let startDate = self?.startDateLabel.text, let deadlineDate = self?.deadLineDateLabel.text else { return }
+                guard let detail = self?.titleTextField.text, !detail.isEmpty, let startDate = self?.startDateLabel.text, let deadlineDate = self?.deadLineDateLabel.text else { return }
                 let todo = Todo.init(detail: detail, isDone: false, startDate: startDate, deadlineDate: deadlineDate)
                 self?.registerTodoViewModel.input.registerTodo.onNext(todo)
                 print("addTaskButton tap")
+                self?.titleTextField.text = ""
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func setupTextField() {
-//        titleTextField.rx.
     }
     
     private func setupLayout() {
