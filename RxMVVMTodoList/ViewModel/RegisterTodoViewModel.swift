@@ -69,7 +69,7 @@ class RegisterTodoViewModel: RegisterViewModelType {
         apiService.requestGet { todos in
             print("register requestGet: Todos == \(todos)")
         }
-        .subscribe(onNext: { [weak self] todos in
+        .subscribe(onSuccess: { [weak self] todos in
             if todos == [] {
                 self?.putTodos(todos: [todo])
             } else {
@@ -77,10 +77,8 @@ class RegisterTodoViewModel: RegisterViewModelType {
                 registerTodos.append(todo)
                 self?.putTodos(todos: registerTodos)
             }
-        }, onError: { error in
+        }, onFailure: { error in
             print("add todos error: \(error.localizedDescription)")
-        }, onCompleted: {
-            print("register add todos completed.")
         }, onDisposed: {
             print("register add todos disposed.")
         })
@@ -92,13 +90,13 @@ class RegisterTodoViewModel: RegisterViewModelType {
             // completion
             print("DB에 저장한 데이터는 다음과 같습니다.")
             print(todos)}
-            .subscribe(onNext: { todos in
+            .subscribe(onSuccess: { todos in
                 print("onNext: \(todos)")
 //                self?.output.todoList.accept($0)
-                // MARK: 이거 해결하면 실시간 데이터 띄우기 가능
-            }, onError: { print("onError = { error_code: \($0._code), description: \($0.localizedDescription)}")
-            }, onCompleted: { print("Save onCompleted")
-            }, onDisposed: { print("Save onDisposed")
+            }, onFailure: { error in
+                print("onError = { error_code: \(error._code), description: \(error.localizedDescription)}")
+            }, onDisposed: {
+                print("Save onDisposed")
             })
             .disposed(by: disposeBag)
     }

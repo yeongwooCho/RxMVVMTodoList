@@ -67,7 +67,7 @@ class TodoViewModel: ViewModelType {
                 let dicTodos = Dictionary.init(grouping: todos, by: {$0.deadlineDate})
                 let sectionModelTodos = dicTodos.map { (key, value) in
                     SectionModel.init(model: key, items: value)
-                }
+                }.sorted { $0.model < $1.model } // string도 크기가 존재한다.
                 self?.output.sectionTodoList.accept(sectionModelTodos)
             }, onError: { error in
                 print(error)
@@ -77,12 +77,10 @@ class TodoViewModel: ViewModelType {
     
     func fetchTodos() { // ViewController에서 호출할 것, 네트워크 콜을 VC에서 VM에게 요청하는 곳이다.
         apiService.requestGet { todos in print("여기는 fetchTodos: \(todos)") }
-            .subscribe(onNext: { [weak self] in
-                self?.output.todoList.accept($0)
-            }, onError: { error in
+            .subscribe(onSuccess: { [weak self] todos in
+                self?.output.todoList.accept(todos)
+            }, onFailure: { error in
                 print("requestGet을 통해 받아온 데이터가 없습니다. error: \(error.localizedDescription)")
-            }, onCompleted: {
-                print("completed. 성공")
             }, onDisposed: {
                 print("disposed. 리소스 반환")
             }).disposed(by: disposeBag)
@@ -95,18 +93,38 @@ class TodoViewModel: ViewModelType {
         print("deleteTodos2 todos \(todos)")
         self.putTodos(todos: todos)
     }
+    
+    func deleteTodos(at index: IndexPath) {
+        print("여기 delete index")
+        print(index)
+        let todo = self.output.sectionTodoList.value[index[0]].items[index[1]]
+        deleteTodos(todo: todo)
+    }
+    
+    func updateTodos(obj item: Todo, deadlineDate: String) {
+        var todos = self.output.todoList.value
+        print("deleteTodos1 todos \(todos)")
+        let updatedItem = Todo.init(obj: item, deadlineDate: deadlineDate)
+        todos.append(updatedItem)
+        guard let index = todos.firstIndex(of: item) else { return }
+        todos.remove(at: index)
+        self.putTodos(todos: todos)
+        print("여기는 updateTodos")
+        print(todos)
+    }
 
     private func putTodos(todos: [Todo]) {
         apiService.requestPut(params: todos) { todos in
             // completion
             print("DB에 저장한 데이터는 다음과 같습니다.")
             print(todos)}
-            .subscribe(onNext: { [weak self] in
-                print("onNext: \($0)")
-                self?.output.todoList.accept($0)
-            }, onError: { print("onError = { error_code: \($0._code), description: \($0.localizedDescription)}")
-            }, onCompleted: { print("Save onCompleted")
-            }, onDisposed: { print("Save onDisposed")
+            .subscribe(onSuccess: { [weak self] todos in
+                print("onNext: \(todos)")
+                self?.output.todoList.accept(todos)
+            }, onFailure: { error in
+                print("onError = { error_code: \(error._code), description: \(error.localizedDescription)")
+            }, onDisposed: {
+                print("Save onDisposed")
             })
             .disposed(by: disposeBag)
     }
