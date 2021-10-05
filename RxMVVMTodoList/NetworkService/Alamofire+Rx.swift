@@ -35,7 +35,8 @@ class AlamofireRxCall: RxNetworkCallInterface {
                     case .success(let obj):
                         guard let objArray = obj as? [[String: Any]]  else { // parsing부분 json -> data
                             print("Parsing되는 데이터가 DB에 존재하지 않는다.")
-                            observer.onError(response.error ?? GetFailureReason.notFound)
+                            observer.onNext([])
+//                            observer.onError(response.error ?? GetFailureReason.notFound)
                             completion([])
                             return
                         }
@@ -53,7 +54,7 @@ class AlamofireRxCall: RxNetworkCallInterface {
                     case .failure(let error):
                         observer.onError(error)
 //                        print(error.localizedDescription)
-//                        completion([])
+                        completion([])
                     }
                 })
                 return Disposables.create() // 그 후, 리소스를 반환하는 disposable를 생성한다
