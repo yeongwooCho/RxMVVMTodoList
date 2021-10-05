@@ -51,12 +51,12 @@ class TodoViewModel: ViewModelType {
     private func setReloadTrigger() { // ViewModel 생성시 호출된다.
         // doOn은 구독 시점이 아닌 이벤트 발생시점에 처리할 작업이 있을때 사용한다. 구독과는 연관이 없다.
         self.input.reloadTrigger
-            .do(onNext: { [weak self] in self?.output.refreshing.onNext(true) })
+            .do(onNext: { [weak self] in self?.output.refreshing.onNext(true)})
             .delay(.seconds(3), scheduler: MainScheduler.instance)
             .flatMapLatest { [weak self] in
-                (self?.apiService.requestGet(completion: { todos in print("여기는 setReloadTrigger: \(todos)")}))!
+                (self?.apiService.requestGet(completion: { todos in print("setReloadTrigger completion: \(todos)")}))!
             }
-            .do(onNext: { [weak self] _ in self?.output.refreshing.onNext(false) }) // refresh
+            .do(onNext: { [weak self] _ in self?.output.refreshing.onNext(false)})
             .bind(to: self.output.todoList)
             .disposed(by: disposeBag)
     }
@@ -69,6 +69,8 @@ class TodoViewModel: ViewModelType {
                     SectionModel.init(model: key, items: value)
                 }
                 self?.output.sectionTodoList.accept(sectionModelTodos)
+            }, onError: { error in
+                print(error)
             })
             .disposed(by: disposeBag)
     }
@@ -86,17 +88,6 @@ class TodoViewModel: ViewModelType {
             }).disposed(by: disposeBag)
     }
     
-    
-    
-    // value로 데이터 가져오는거 원래 안됨 -> 이거도 안되고 있는거임// 수정바람
-    func addTodos(todo: Todo) {
-        var todos = self.output.todoList.value
-        print("addTodos1 todos \(todos)")
-        todos.append(todo)
-        print("addTodos2 todos \(todos)")
-        self.putTodos(todos: todos)
-    }
-    
     func deleteTodos(todo: Todo) {
         var todos = self.output.todoList.value
         print("deleteTodos1 todos \(todos)")
@@ -104,7 +95,7 @@ class TodoViewModel: ViewModelType {
         print("deleteTodos2 todos \(todos)")
         self.putTodos(todos: todos)
     }
-    
+
     private func putTodos(todos: [Todo]) {
         apiService.requestPut(params: todos) { todos in
             // completion
