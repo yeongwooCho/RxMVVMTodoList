@@ -76,14 +76,27 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
             .disposed(by: self.disposeBag)
     }
     
-    private func setupItemSelected() {
-        tableView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                guard let detailVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoDetailViewController.identifier) as? TodoDetailViewController else { return }
-                let selectedTodo = self?.todoListViewModel.output.todoList.value[indexPath.item]
-                detailVC.todoDetailViewModel.input.todoInfo.onNext(selectedTodo)
-//                detailVC.modalPresentationStyle = .fullScreen
-                self?.present(detailVC, animated: true, completion: nil)
+    private func setupItemEditing() {
+        tableView.rx.itemDeleted
+            .subscribe (onNext: { [weak self] deleteItem in
+                self?.todoListViewModel.deleteTodos(at: deleteItem)
+            })
+            .disposed(by: disposeBag)
+        
+        tableView.rx.itemMoved
+            .subscribe(onNext: { [weak self] moveItem in
+                print("move from \(moveItem.sourceIndex) to \(moveItem.destinationIndex)")
+                if moveItem.sourceIndex == moveItem.destinationIndex {
+                    guard let detailVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoDetailViewController.identifier) as? TodoDetailViewController else { return }
+                    let selectedTodo = self?.todoListViewModel.output.sectionTodoList.value[moveItem.sourceIndex.section].items[moveItem.sourceIndex.item]
+                    detailVC.todoDetailViewModel.input.todoInfo.onNext(selectedTodo)
+                    self?.present(detailVC, animated: true, completion: nil)
+                } else { // move로 인한 실제 데이터 값 변경으로 section이 변경되어야함.
+                    let sourceItem = self?.todoListViewModel.output.sectionTodoList.value[moveItem.sourceIndex.section].items[moveItem.sourceIndex.item]
+                    let destinationSection = self?.todoListViewModel.output.sectionTodoList.value[moveItem.destinationIndex.section].model
+                    guard let obj = sourceItem, let deadlineDate = destinationSection else { return }
+                    self?.todoListViewModel.updateTodos(obj: obj, deadlineDate: deadlineDate)
+                }
             })
             .disposed(by: disposeBag)
     }
