@@ -45,6 +45,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZZ-00-pYk">
                                                     <rect key="frame" x="20" y="21" width="29" height="28"/>
+                                                    <color key="tintColor" red="0.22066032890000001" green="0.34024602170000001" blue="0.89024287459999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <state key="normal" image="circle" catalog="system">
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
                                                     </state>
@@ -63,12 +64,12 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POA-YA-32n">
                                                     <rect key="frame" x="365" y="21" width="29" height="28"/>
-                                                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <state key="normal" image="xmark.circle.fill" catalog="system">
+                                                    <color key="tintColor" red="0.22066032890000001" green="0.34024602170000001" blue="0.89024287459999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <state key="normal" image="circle" catalog="system">
                                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="25"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="deleteButtonTapped:" destination="Rzq-kZ-OGp" eventType="touchUpInside" id="JXG-ub-ZfW"/>
+                                                        <action selector="completedButtonTapped:" destination="Rzq-kZ-OGp" eventType="touchUpInside" id="HB6-tF-dCV"/>
                                                     </connections>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qwJ-kh-3rH">
@@ -94,7 +95,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="checkButton" destination="GZZ-00-pYk" id="cJr-Bd-iKv"/>
-                                            <outlet property="deleteButton" destination="POA-YA-32n" id="bSe-vk-cHV"/>
+                                            <outlet property="completedButton" destination="POA-YA-32n" id="cJS-Vm-RaV"/>
                                             <outlet property="descriptionLabel" destination="FjR-M8-6Yi" id="FNq-fG-zWe"/>
                                             <outlet property="strikeThroughView" destination="qwJ-kh-3rH" id="Tij-a7-LmC"/>
                                             <outlet property="strikeThroughWidth" destination="7hW-zo-aAi" id="z76-IM-4Cc"/>
@@ -625,7 +626,6 @@
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="xmark.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
