@@ -12,11 +12,11 @@ class TodoListCell: UITableViewCell {
     
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var completedButton: UIButton!
     @IBOutlet weak var strikeThroughView: UIView!
     @IBOutlet weak var strikeThroughWidth: NSLayoutConstraint!
     
-    var deleteButtonTapHandler: (() -> Void)?
+    var completedButtonTapHandler: (() -> Void)?
     
     // 셀이 화면에서 깨어날 때
     override func awakeFromNib() {
@@ -34,7 +34,7 @@ class TodoListCell: UITableViewCell {
         checkButton.isSelected = todo.isDone
         descriptionLabel.text = todo.detail
         descriptionLabel.alpha = todo.isDone ? 0.2 : 1
-        deleteButton.isHidden = todo.isDone == false
+        completedButton.isHidden = todo.isDone == false
         showStrikeThrough(todo.isDone)
     }
     
@@ -49,7 +49,7 @@ class TodoListCell: UITableViewCell {
     
     private func reset() {  // check 가 아닌 본래의 상태
         descriptionLabel.alpha = 1
-        deleteButton.isHidden = true
+        completedButton.isHidden = true
         showStrikeThrough(false)
     }
     
@@ -57,11 +57,11 @@ class TodoListCell: UITableViewCell {
         checkButton.isSelected = !checkButton.isSelected
         let isDone = checkButton.isSelected
         descriptionLabel.alpha = isDone ? 0.2 : 1
-        deleteButton.isHidden = !isDone
+        completedButton.isHidden = !isDone
         showStrikeThrough(isDone)
     }
     
-    @IBAction func deleteButtonTapped(_ sender: Any) {
-        deleteButtonTapHandler?()
+    @IBAction func completedButtonTapped(_ sender: Any) {
+        completedButtonTapHandler?()
     }
 }
