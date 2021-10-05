@@ -21,6 +21,7 @@ class RegisterTodoViewController: UIViewController {
     @IBOutlet weak var startDateAddButton: UIButton!
     @IBOutlet weak var deadLineDateLabel: UILabel!
     @IBOutlet weak var deadLineDateAddButton: UIButton!
+    @IBOutlet weak var addTaskButton: UIButton!
     
     let registerTodoViewModel = RegisterTodoViewModel.shared
     let disposeBag = DisposeBag()
@@ -28,7 +29,8 @@ class RegisterTodoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDateLabel()
-        setupAddButtonSelected()
+        setupButton()
+        setupTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,7 +50,7 @@ class RegisterTodoViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func setupAddButtonSelected() {
+    private func setupButton() {
         startDateAddButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let calendarVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: CalendarViewController.identifier) as? CalendarViewController else { return }
@@ -66,6 +68,19 @@ class RegisterTodoViewController: UIViewController {
                 self?.present(calendarVC, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
+        
+        addTaskButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let detail = self?.titleTextField.text, let startDate = self?.startDateLabel.text, let deadlineDate = self?.deadLineDateLabel.text else { return }
+                let todo = Todo.init(detail: detail, isDone: false, startDate: startDate, deadlineDate: deadlineDate)
+                self?.registerTodoViewModel.input.registerTodo.onNext(todo)
+                print("addTaskButton tap")
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupTextField() {
+//        titleTextField.rx.
     }
     
     private func setupLayout() {
@@ -77,5 +92,6 @@ class RegisterTodoViewController: UIViewController {
         deadLineDateLabel.layer.borderWidth = 1
         deadLineDateLabel.layer.cornerRadius = 10
         deadLineDateAddButton.layer.cornerRadius = 10
+        addTaskButton.layer.cornerRadius = 10
     }
 }
