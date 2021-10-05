@@ -27,59 +27,29 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         let configureCell: (TableViewSectionedDataSource<TodoSectionModel>, UITableView, IndexPath, Todo) -> UITableViewCell = { (datasource, tableView, indexPath, element) in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoListCell.identifier, for: indexPath) as? TodoListCell else { return UITableViewCell() }
             cell.updateUI(todo: element)
-            cell.deleteButtonTapHandler = { [weak self] in
-                self?.todoListViewModel.deleteTodos(todo: element)
+            cell.completedButtonTapHandler = { // [weak self] in
+//                self?.todoListViewModel.deleteTodos(todo: element)
+                print("completed")
             }
             return cell
         }
         // cell은 datasource에 사용할 정보를 모두 담고 있고, 이를 datasource에 맞게 initialize를 거친다.
         // TodoDataSource 객체를 만드는 것이고, 이는 위의 클로저 파라미터로 TableViewSectionedDataSource를 선언해야 하는 이유이다.
         let datasource = TodoDataSource.init(configureCell: configureCell)
-        // datasource에는 section header을 정의할 수 있고, sectionModels의 index에 해당하는 model을 title로 지정한다.
-        datasource.titleForHeaderInSection = { ds, index in
-            // TodoSectionModel의 모델에 해당하는 String을 이용한다.
-            return ds.sectionModels[index].model
-        }
+        datasource.titleForHeaderInSection = { ds, index in return ds.sectionModels[index].model }
+        datasource.canMoveRowAtIndexPath = { ds, index in return true }
+        datasource.canEditRowAtIndexPath = { ds, index in return true }
         return datasource
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // MARK: // delegate 사용을 위한 선언, 솔직하게 왜있는지 모름
-        tableView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
-        // Observable Event는 단방향이기 때문에 Delegate를 통해 값 가져오기가 불가능하다 이것이 rx를 이용한 tableView의 한계이다???
-        // rx를 사용하면 코드가 분산이 되지 않고 한눈에 들어오게 되는 장점이 있는데, delegate는 rx를 쓰더라도 동일한 방식으로 진행된다.
-        
-        
+        tableView.rx.setDelegate(self).disposed(by: disposeBag)
+        tableView.setEditing(true, animated: true)
         setupTableView()
-        // table view setting하는 것으로 tableView를 뷰 아래로 당기면 valueChanged가 일어난다.
-        // 이는 Control Event type이며, 이를 구독하고 있다가 이벤트를 받게되면 input.reloadTrigger에 전달한다. 안쓰면 쓰레기통
-        // output.refreshing는 구독 전 데이터도 이벤트로 보낼수 있는 BehaviorSubject이다.
-        // 여기 값이 false이면 refreshing가 완료됨을 TableView에 이벤트로 전달한다.
-        // 사실 이게되려면 input.reloadTrigger가 이벤트를 받는 것과 output.refreshing가 true, false 바뀌는게 연관성이 있어야함.
-        // --> 이게 ViewModel의 private func setReloadTrigger 이다.
-        
-//        bindTableView() // no section
-        // output.todoList는 BehaviorRelay<[Todo]>이고, binding 할 데이터 이기에 이기에 error 이벤트를 전달하지 않는다.
-        // .asDriver(onErrorJustReturn: []) 그래서 여기에 에러가 발생하면 []를 리턴하고, 아니면 [Todo]를 Driver 타입으로 반환한다.
-        // .drive(tableView.rx.items) observable을 구독하는 것이다. 이벤트를 받으면 tableview rx items에 binding을 한다.
-        
-        
-        sectionHeaderBindTableView() // yes section
-        // 일반적인 TableView의 사용은 위와같이 간단하다. 하지만, section Header을 binding할 경우 Delegate patten을 사용해야 한다.
-        // viewModel.output.todoList를 구독하다가 이벤트가 발생하면 viewModel.output.sectionTodoList에 이벤트를 전달한다.
-        // viewModel.output.sectionTodoList 또한 구독중이다. 이벤트가 발생하면 tableView rx items의 datasource에 binding 한다.
-        // todoList가 BehaviorSubject역할을 하고, sectionTodoList가 BehaviorRelay 역할을 한다.
-        // 하지만, Delegate patten 을 빼는경우 section header를 수정할 수도 있어서 일단 이렇게 진행했다.
-        
-        setupItemSelected()
-        
+        sectionHeaderBindTableView()
+        setupItemEditing() // deleted, moved
         todoListViewModel.fetchTodos() // request Get
-        // requestGet은 Observable이고, 이를 구독하고 있다가 정상적인 Next event를 받게되면 output.todoList에 accept 시키는 동작을 한다.
-        
-        
     }
     
     private func setupTableView() {
@@ -87,7 +57,7 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         tableView.refreshControl = refreshControl
         
         // Control Event type
-        refreshControl.rx.controlEvent(.valueChanged) // 뷰를 아래로 당기면 reloadTrigger에게 이벤트를 보내 네트워크 콜을 요청한다
+        refreshControl.rx.controlEvent(.valueChanged)
             .bind(to: todoListViewModel.input.reloadTrigger) // PublishSubject<Void>
             .disposed(by: disposeBag)
         
@@ -100,8 +70,6 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private func sectionHeaderBindTableView() {
-        // sectionTodoList를 구독하여 이벤트를 받으면 binding 시킨다.
-        // MARK: 이거 MainScheduler 사용하도록 Relay와 Driver를 사용하도록 변경.
         self.todoListViewModel.output.sectionTodoList
             .asDriver(onErrorJustReturn: [])
             .drive(self.tableView.rx.items(dataSource: self.todoDatasource))
@@ -119,14 +87,4 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
             })
             .disposed(by: disposeBag)
     }
-
-//        self.view.rx
-//            .tapGesture()
-//            .when(.recognized)
-//            .subscribe(onNext: { [weak self] _ in // 어차피 viewDidLoad에서 사용해서 MainThread로 동작한다.
-////                guard let self = self else { return }
-//                self?.inputTextField.resignFirstResponder()
-//            })
-//            .disposed(by: disposeBag)
-//    }
 }
