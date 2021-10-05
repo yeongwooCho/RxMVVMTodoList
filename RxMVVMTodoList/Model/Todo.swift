@@ -30,6 +30,22 @@ struct Todo: Codable, Equatable {
         self.deadlineDate = deadlineDate
     }
     
+    init(obj: Todo) {
+        self.detail = obj.detail
+        self.id = obj.id
+        self.isDone = obj.isDone
+        self.startDate = obj.startDate
+        self.deadlineDate = obj.deadlineDate
+    }
+    
+    init(obj: Todo, deadlineDate: String) {
+        self.detail = obj.detail
+        self.id = obj.id + TimeInterval(0.01) // 최소한 겹치지는 않게
+        self.isDone = obj.isDone
+        self.startDate = obj.startDate
+        self.deadlineDate = deadlineDate
+    }
+    
     mutating func update(detail: String, isDone: Bool, startDate: String, deadlineDate: String) {
         self.detail = detail
         self.isDone = isDone
