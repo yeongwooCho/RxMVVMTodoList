@@ -13,9 +13,6 @@ import RxDataSources
 class RegisterTodoViewController: UIViewController {
     static let identifier = "RegisterTodoViewController"
     
-    @IBOutlet weak var resetButton: UIButton!
-    @IBOutlet weak var headerLabel: UILabel!
-    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var startDateAddButton: UIButton!

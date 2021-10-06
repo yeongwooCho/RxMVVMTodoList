@@ -298,7 +298,6 @@
                     <navigationItem key="navigationItem" title="Add Task" leftItemsSupplementBackButton="YES" id="QB4-7O-dKd"/>
                     <connections>
                         <outlet property="addTaskButton" destination="ZYl-d7-d2b" id="lpf-6O-5YW"/>
-                        <outlet property="backButton" destination="QB4-7O-dKd" id="Zz2-7p-S6E"/>
                         <outlet property="deadLineDateAddButton" destination="54e-py-6r8" id="7Hx-IZ-QaE"/>
                         <outlet property="deadLineDateLabel" destination="5Cq-TR-lu1" id="m1H-zO-Vyb"/>
                         <outlet property="startDateAddButton" destination="GrA-Q8-gq5" id="IXg-5D-43R"/>
