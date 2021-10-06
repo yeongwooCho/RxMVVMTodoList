@@ -64,11 +64,14 @@ class TodoViewModel: ViewModelType {
     private func setSubscribedTodoList() { // todoList <-> sectionTodoLabel
         self.output.todoList
             .subscribe(onNext: { [weak self] todos in
+                print("여기서 todo accept한것 데이터를 받아버림 \(todos)")
                 let dicTodos = Dictionary.init(grouping: todos, by: {$0.deadlineDate})
                 let sectionModelTodos = dicTodos.map { (key, value) in
                     SectionModel.init(model: key, items: value)
                 }.sorted { $0.model < $1.model } // string도 크기가 존재한다.
                 self?.output.sectionTodoList.accept(sectionModelTodos)
+                print("여기선 todoList를 sectionModelTodos로 갖다 붙힌다.")
+                print(sectionModelTodos)
             }, onError: { error in
                 print(error)
             })
@@ -76,27 +79,23 @@ class TodoViewModel: ViewModelType {
     }
     
     func fetchTodos() { // ViewController에서 호출할 것, 네트워크 콜을 VC에서 VM에게 요청하는 곳이다.
-        apiService.requestGet { todos in print("여기는 fetchTodos: \(todos)") }
+        apiService.requestGet { todos in print("todoVM fetchTodos completion: \(todos)") }
             .subscribe(onSuccess: { [weak self] todos in
                 self?.output.todoList.accept(todos)
             }, onFailure: { error in
                 print("requestGet을 통해 받아온 데이터가 없습니다. error: \(error.localizedDescription)")
             }, onDisposed: {
-                print("disposed. 리소스 반환")
+                print("todoVM fetchTodos 리소스 반환 disposed.")
             }).disposed(by: disposeBag)
     }
     
     func deleteTodos(todo: Todo) {
         var todos = self.output.todoList.value
-        print("deleteTodos1 todos \(todos)")
         todos = todos.filter{ $0.id != todo.id }
-        print("deleteTodos2 todos \(todos)")
         self.putTodos(todos: todos)
     }
     
     func deleteTodos(at index: IndexPath) {
-        print("여기 delete index")
-        print(index)
         let todo = self.output.sectionTodoList.value[index[0]].items[index[1]]
         deleteTodos(todo: todo)
     }
