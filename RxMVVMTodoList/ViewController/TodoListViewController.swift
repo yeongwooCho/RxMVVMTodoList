@@ -13,6 +13,8 @@ import RxDataSources
 import RxKeyboard
 
 class TodoListViewController: UIViewController, UIScrollViewDelegate {
+    static let identifier = "TodoListViewController"
+    
     // RxCocoa 기반 TableView section header을 만들기 위해 편리한 type 지정
     typealias TodoSectionModel = SectionModel<String, Todo> // defalut로 section과 데이터를 묶기 좋다.
     typealias TodoDataSource = RxTableViewSectionedReloadDataSource<TodoSectionModel> // RxDataSources에서 제공하는 Sectioned Reload
@@ -74,6 +76,7 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
             .asDriver(onErrorJustReturn: [])
             .drive(self.tableView.rx.items(dataSource: self.todoDatasource))
             .disposed(by: self.disposeBag)
+        
     }
     
     private func setupItemEditing() {
