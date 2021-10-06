@@ -32,6 +32,7 @@
 		3D79ADFB26F7477B008F0CE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D79ADFA26F7477B008F0CE0 /* Assets.xcassets */; };
 		3D79ADFE26F7477B008F0CE0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D79ADFC26F7477B008F0CE0 /* LaunchScreen.storyboard */; };
 		3D9E103F2706EDB70091DFA3 /* RegisterTodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9E103E2706EDB70091DFA3 /* RegisterTodoViewModel.swift */; };
+		3DB60D83270D8C8C009F1ACD /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB60D82270D8C8C009F1ACD /* Alert.swift */; };
 		3DB7C9352704301D007CCAB8 /* RegisterTodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7C9342704301D007CCAB8 /* RegisterTodoViewController.swift */; };
 		3DB7C93A270436A5007CCAB8 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7C939270436A5007CCAB8 /* Calendar.swift */; };
 		3DB7C93E27045E71007CCAB8 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7C93D27045E71007CCAB8 /* CalendarViewController.swift */; };
@@ -69,6 +70,7 @@
 		3D79ADFD26F7477B008F0CE0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3D79ADFF26F7477B008F0CE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D9E103E2706EDB70091DFA3 /* RegisterTodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTodoViewModel.swift; sourceTree = "<group>"; };
+		3DB60D82270D8C8C009F1ACD /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		3DB7C9342704301D007CCAB8 /* RegisterTodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTodoViewController.swift; sourceTree = "<group>"; };
 		3DB7C939270436A5007CCAB8 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		3DB7C93D27045E71007CCAB8 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				3DC7F662270593C10038F5A8 /* Date.swift */,
+				3DB60D82270D8C8C009F1ACD /* Alert.swift */,
 			);
 			path = Extention;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				3D4B685327099D5300D9BFDF /* CalendarViewModel.swift in Sources */,
 				3D44BFB726FB7F3100D9D9CF /* TodoDetailViewModel.swift in Sources */,
 				3D76C96926F75DC4008F6E3B /* ObservableTest.swift in Sources */,
+				3DB60D83270D8C8C009F1ACD /* Alert.swift in Sources */,
 				3D44BFB126FB4AE600D9D9CF /* TestViewModel.swift in Sources */,
 				3D44BFB926FC0EFD00D9D9CF /* TestHeader.swift in Sources */,
 				3D76C96D26F75E18008F6E3B /* ObservableViewModel.swift in Sources */,

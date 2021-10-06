@@ -67,11 +67,17 @@ class RegisterTodoViewController: UIViewController {
         
         addTaskButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                guard let detail = self?.titleTextField.text, !detail.isEmpty, let startDate = self?.startDateLabel.text, let deadlineDate = self?.deadLineDateLabel.text else { return }
+                print("addTaskButton tap")
+                guard let detail = self?.titleTextField.text, !detail.isEmpty, let startDate = self?.startDateLabel.text, let deadlineDate = self?.deadLineDateLabel.text else {
+                    self?.setupAlert()
+                    return
+                }
                 let todo = Todo.init(detail: detail, isDone: false, startDate: startDate, deadlineDate: deadlineDate)
                 self?.registerTodoViewModel.input.registerTodo.onNext(todo)
-                print("addTaskButton tap")
-                self?.titleTextField.text = ""
+                self?.titleTextField.text?.removeAll()
+                
+                // todo list view로 전환
+                self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -86,5 +92,23 @@ class RegisterTodoViewController: UIViewController {
         deadLineDateLabel.layer.cornerRadius = 10
         deadLineDateAddButton.layer.cornerRadius = 10
         addTaskButton.layer.cornerRadius = 10
+    }
+    
+    private func setupAlert() {
+        let actions: [UIAlertController.AlertAction] = [
+            .action(title: "OK", style: .destructive),
+//            .action(title: "yes")
+        ]
+
+        UIAlertController
+            .present(in: self, title: "Task를 입력해주세요", message: "정상적인 입력이 아닙니다.", style: .alert, actions: actions)
+            .subscribe(onSuccess: { buttonIndex in
+                print("alert buttonIndex: \(buttonIndex)") // button index에 따른 control
+            }, onFailure: { error in
+                print("alert error: \(error.localizedDescription)")
+            }, onDisposed: {
+                print("alert disposed")
+            })
+            .disposed(by: disposeBag)
     }
 }
