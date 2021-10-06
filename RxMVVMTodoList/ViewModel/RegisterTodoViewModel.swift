@@ -52,52 +52,49 @@ class RegisterTodoViewModel: RegisterViewModelType {
     
     private func setRegisterTodo() {
         self.input.registerTodo
-            .subscribe(onNext: { [weak self] todo in
-                self?.addTodos(todo: todo)
-                print("Add task button에 의한 데이터 받음 \(todo)")
+            .subscribe(onNext: { [weak self] todo in self?.addTodos(todo: todo) // MARK: 여기 이상함
             }, onError: { error in
                 print("error: \(error.localizedDescription)")
             }, onCompleted: {
-                print("register todo completed")
+                print("registerVM add todo completed")
             }, onDisposed: {
-                print("register todo disposed")
+                print("registerVM todo disposed")
             })
             .disposed(by: disposeBag)
     }
             
     private func addTodos(todo: Todo) {
-        apiService.requestGet { todos in
-            print("register requestGet: Todos == \(todos)")
-        }
-        .subscribe(onSuccess: { [weak self] todos in
-            if todos == [] {
-                self?.putTodos(todos: [todo])
-            } else {
-                var registerTodos = todos
-                registerTodos.append(todo)
-                self?.putTodos(todos: registerTodos)
-            }
-        }, onFailure: { error in
-            print("add todos error: \(error.localizedDescription)")
-        }, onDisposed: {
-            print("register add todos disposed.")
-        })
-        .disposed(by: disposeBag)
+        apiService.requestGet { todos in print("registerVM addTodos requestGet completion: \(todos)") }
+            .subscribe(onSuccess: { [weak self] todos in
+                if todos == [] {
+                    self?.putTodos(todos: [todo])
+                } else {
+                    var registerTodos = todos
+                    registerTodos.append(todo)
+                    self?.putTodos(todos: registerTodos)
+                }
+            }, onFailure: { error in
+                print("registerVM add todos error: \(error.localizedDescription)")
+            }, onDisposed: {
+                print("registerVM add todos disposed.")
+            })
+            .disposed(by: disposeBag)
     }
     
     private func putTodos(todos: [Todo]) {
-        apiService.requestPut(params: todos) { todos in
-            // completion
-            print("DB에 저장한 데이터는 다음과 같습니다.")
-            print(todos)}
-            .subscribe(onSuccess: { todos in
-                print("onNext: \(todos)")
+        apiService.requestPut(params: todos) { todos in // completion
+            print("registerVM requestPut completion: \(todos)")
+            guard let todoListVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoListViewController.identifier) as? TodoListViewController else { return }
+            todoListVC.todoListViewModel.output.todoList.accept(todos)
+        }
+        .subscribe(onSuccess: { todos in
+            print("registerVM putTodos success on next: \(todos)")
 //                self?.output.todoList.accept($0)
-            }, onFailure: { error in
-                print("onError = { error_code: \(error._code), description: \(error.localizedDescription)}")
-            }, onDisposed: {
-                print("Save onDisposed")
-            })
-            .disposed(by: disposeBag)
+        }, onFailure: { error in
+            print("registerVM putTodos error_code: \(error._code), description: \(error.localizedDescription)")
+        }, onDisposed: {
+            print("registerVM putTodos onDisposed")
+        })
+        .disposed(by: disposeBag)
     }
 }
