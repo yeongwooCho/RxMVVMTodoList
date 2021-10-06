@@ -46,8 +46,12 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("RegisterTodoViewController 리소스 생성되었습니다.")
+        
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
-        tableView.setEditing(true, animated: true)
+//        tableView.setEditing(true, animated: true)
+        tableView.allowsSelectionDuringEditing = true // editing 상태에서 selection 가능
+        
         setupTableView()
         sectionHeaderBindTableView()
         setupItemEditing() // deleted, moved
@@ -76,24 +80,29 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
             .asDriver(onErrorJustReturn: [])
             .drive(self.tableView.rx.items(dataSource: self.todoDatasource))
             .disposed(by: self.disposeBag)
-        
     }
     
     private func setupItemEditing() {
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let detailVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoDetailViewController.identifier) as? TodoDetailViewController else { return }
+                let selectedTodo = self?.todoListViewModel.output.sectionTodoList.value[indexPath.section].items[indexPath.item]
+                detailVC.todoDetailViewModel.input.todoInfo.onNext(selectedTodo)
+                self?.present(detailVC, animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+//
         tableView.rx.itemDeleted
             .subscribe (onNext: { [weak self] deleteItem in
                 self?.todoListViewModel.deleteTodos(at: deleteItem)
             })
             .disposed(by: disposeBag)
-        
+
         tableView.rx.itemMoved
             .subscribe(onNext: { [weak self] moveItem in
                 print("move from \(moveItem.sourceIndex) to \(moveItem.destinationIndex)")
                 if moveItem.sourceIndex == moveItem.destinationIndex {
-                    guard let detailVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoDetailViewController.identifier) as? TodoDetailViewController else { return }
-                    let selectedTodo = self?.todoListViewModel.output.sectionTodoList.value[moveItem.sourceIndex.section].items[moveItem.sourceIndex.item]
-                    detailVC.todoDetailViewModel.input.todoInfo.onNext(selectedTodo)
-                    self?.present(detailVC, animated: true, completion: nil)
+                    return // 제자리면 return
                 } else { // move로 인한 실제 데이터 값 변경으로 section이 변경되어야함.
                     let sourceItem = self?.todoListViewModel.output.sectionTodoList.value[moveItem.sourceIndex.section].items[moveItem.sourceIndex.item]
                     let destinationSection = self?.todoListViewModel.output.sectionTodoList.value[moveItem.destinationIndex.section].model
