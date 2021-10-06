@@ -42,7 +42,7 @@ class CalendarViewController: UIViewController {
     func setupButtonTap() {
         selectButton.rx.tap
             .subscribe(onNext: { [weak self] buttonEvent in
-                self?.presentingViewController?.dismiss(animated: true, completion: nil)
+                self?.dismiss(animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
     }
@@ -58,11 +58,13 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate {
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        if self.titleText == "Start Date" {
-            RegisterTodoViewModel.shared.output.startDateRelay
+        guard let registerVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: RegisterTodoViewController.identifier) as? RegisterTodoViewController else { return }
+        guard let title = self.titleText else { return }
+        if title == "Start Date" {
+            registerVC.registerTodoViewModel.output.startDateRelay
                 .accept(Date.dateToString(date: date, isTime: false))
         } else {
-            RegisterTodoViewModel.shared.output.deadlineDateRelay
+            registerVC.registerTodoViewModel.output.deadlineDateRelay
                 .accept(Date.dateToString(date: date, isTime: false))
         }
     }
