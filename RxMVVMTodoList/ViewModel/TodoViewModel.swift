@@ -24,7 +24,8 @@ protocol ViewModelType {
 class TodoViewModel: ViewModelType {
     
     struct Input {
-        let reloadTrigger = PublishSubject<Void>() // 이벤트 전달받고 전달해줄 놈, 구독이후 이벤트 전달, trigger: 방아쇠
+        let reloadTrigger = PublishSubject<Void>() // 이벤트 전달받고 전달해줄 놈, 구독이후 이벤트 전달, trigger: 방아쇠\
+        let completedTrigger = PublishSubject<Void>()
     }
     
     struct Output {
