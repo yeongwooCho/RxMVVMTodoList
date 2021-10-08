@@ -29,9 +29,9 @@ class TodoViewModel: ViewModelType {
     }
     
     struct Output {
-        let todoList = BehaviorRelay<[Todo]>(value: []) // 이벤트를 받아 binding할때 쓰는놈, 현재는 비어있다.
         let refreshing = BehaviorSubject<Bool>(value: false) // TableView refreshing 해야할지 판단
         
+        let todoList = BehaviorRelay<[Todo]>(value: []) // 이벤트를 받아 binding할때 쓰는놈, 현재는 비어있다.
         let sectionTodoList = BehaviorRelay<[SectionModel<String, Todo>]>(value: [])
     }
     
@@ -70,9 +70,8 @@ class TodoViewModel: ViewModelType {
                 let sectionModelTodos = dicTodos.map { (key, value) in
                     SectionModel.init(model: key, items: value)
                 }.sorted { $0.model < $1.model } // string도 크기가 존재한다.
-                self?.output.sectionTodoList.accept(sectionModelTodos)
-                print("여기선 todoList를 sectionModelTodos로 갖다 붙힌다.")
                 print(sectionModelTodos)
+                self?.output.sectionTodoList.accept(sectionModelTodos)
             }, onError: { error in
                 print(error)
             })
@@ -102,17 +101,33 @@ class TodoViewModel: ViewModelType {
     }
     
     func updateTodos(obj item: Todo, deadlineDate: String) {
-        var todos = self.output.todoList.value
-        print("deleteTodos1 todos \(todos)")
+        var todos = self.output.todoList.value.map { Todo.init(obj: $0) }
         let updatedItem = Todo.init(obj: item, deadlineDate: deadlineDate)
-        todos.append(updatedItem)
         guard let index = todos.firstIndex(of: item) else { return }
         todos.remove(at: index)
+        todos.append(updatedItem)
         self.putTodos(todos: todos)
-        print("여기는 updateTodos")
-        print(todos)
     }
-
+    
+    func updateEditingTodos(obj item: Todo, detail: String, startDate: String, deadlineDate: String) {
+        apiService.requestGet { print("TodoViewModel updateEditingTodos requestGet: \($0)") }
+            .subscribe { getDatas in
+                var todos = getDatas.map { Todo.init(obj: $0) }
+                var updatedItem = Todo.init(obj: item)
+                updatedItem.update(detail: detail, isDone: false, startDate: startDate, deadlineDate: deadlineDate)
+                
+                guard let index = todos.firstIndex(of: item) else { return }
+                todos.remove(at: index)
+                todos.append(updatedItem)
+                self.putTodos(todos: todos)
+            } onFailure: { error in
+                print("error: \(error.localizedDescription)")
+            } onDisposed: {
+                print("disposed")
+            }
+            .disposed(by: disposeBag)
+    }
+    
     private func putTodos(todos: [Todo]) {
         apiService.requestPut(params: todos) { todos in
             // completion
