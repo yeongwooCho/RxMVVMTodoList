@@ -26,7 +26,7 @@ class CalendarViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateUI()
+        updateUI(title: self.titleText)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,12 +34,13 @@ class CalendarViewController: UIViewController {
         setupCalendar()
     }
     
-    func updateUI() {
-        guard let titleString = titleText else { return }
-        titleLabel.text = titleString
+    func updateUI(title: String?) {
+        guard let titleString = title else { return }
+        self.titleLabel?.text = titleString
+        self.titleText = titleString
     }
     
-    func setupButtonTap() {
+    private func setupButtonTap() {
         selectButton.rx.tap
             .subscribe(onNext: { [weak self] buttonEvent in
                 self?.dismiss(animated: true, completion: nil)
@@ -59,6 +60,7 @@ extension CalendarViewController: FSCalendarDataSource, FSCalendarDelegate {
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         guard let registerVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: RegisterTodoViewController.identifier) as? RegisterTodoViewController else { return }
+//        guard let title = self.titleLabel.text else { return }
         guard let title = self.titleText else { return }
         if title == "Start Date" {
             registerVC.registerTodoViewModel.output.startDateRelay
