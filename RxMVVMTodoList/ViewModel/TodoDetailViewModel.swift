@@ -30,8 +30,8 @@ class TodoDetailViewModel: DetailViewModelType { // : ViewModelType
     var input: Input
     var output: Output
     
-    
     init() {
+        print("TodoDetailViewModel 생성")
         self.input = Input()
         let todo = self.input.todoInfo
             .map({$0!})
