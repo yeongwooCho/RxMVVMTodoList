@@ -29,10 +29,6 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         let configureCell: (TableViewSectionedDataSource<TodoSectionModel>, UITableView, IndexPath, Todo) -> UITableViewCell = { (datasource, tableView, indexPath, element) in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoListCell.identifier, for: indexPath) as? TodoListCell else { return UITableViewCell() }
             cell.updateUI(todo: element)
-            cell.completedButtonTapHandler = { // [weak self] in
-//                self?.todoListViewModel.deleteTodos(todo: element)
-                print("completed")
-            }
             return cell
         }
         // cell은 datasource에 사용할 정보를 모두 담고 있고, 이를 datasource에 맞게 initialize를 거친다.
@@ -46,8 +42,7 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("RegisterTodoViewController 리소스 생성되었습니다.")
-        
+        print("TodoListViewController 로딩되었습니다.")
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
 //        tableView.setEditing(true, animated: true)
         tableView.allowsSelectionDuringEditing = true // editing 상태에서 selection 가능
@@ -56,6 +51,11 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         sectionHeaderBindTableView()
         setupItemEditing() // deleted, moved
         todoListViewModel.fetchTodos() // request Get
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.todoListViewModel.fetchTodos()
     }
     
     private func setupTableView() {
@@ -79,26 +79,27 @@ class TodoListViewController: UIViewController, UIScrollViewDelegate {
         self.todoListViewModel.output.sectionTodoList
             .asDriver(onErrorJustReturn: [])
             .drive(self.tableView.rx.items(dataSource: self.todoDatasource))
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
     }
     
     private func setupItemEditing() {
-        tableView.rx.itemSelected
+        self.tableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let detailVC = UIComponents.mainStoryboard.instantiateViewController(withIdentifier: TodoDetailViewController.identifier) as? TodoDetailViewController else { return }
                 let selectedTodo = self?.todoListViewModel.output.sectionTodoList.value[indexPath.section].items[indexPath.item]
                 detailVC.todoDetailViewModel.input.todoInfo.onNext(selectedTodo)
+                detailVC.modalPresentationStyle = .fullScreen
                 self?.present(detailVC, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
-//
-        tableView.rx.itemDeleted
+        
+        self.tableView.rx.itemDeleted
             .subscribe (onNext: { [weak self] deleteItem in
                 self?.todoListViewModel.deleteTodos(at: deleteItem)
             })
             .disposed(by: disposeBag)
 
-        tableView.rx.itemMoved
+        self.tableView.rx.itemMoved
             .subscribe(onNext: { [weak self] moveItem in
                 print("move from \(moveItem.sourceIndex) to \(moveItem.destinationIndex)")
                 if moveItem.sourceIndex == moveItem.destinationIndex {
