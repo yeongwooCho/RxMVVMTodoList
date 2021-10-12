@@ -74,10 +74,9 @@ class RegisterTodoViewController: UIViewController {
                 }
                 let todo = Todo.init(detail: detail, isDone: false, startDate: startDate, deadlineDate: deadlineDate)
                 self?.registerTodoViewModel.input.registerTodo.onNext(todo)
-                self?.titleTextField.text?.removeAll()
+                self?.titleTextField.text?.removeAll() // textField reset
                 
-                // todo list view로 전환
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: true) // todo list view로 전환
             })
             .disposed(by: disposeBag)
     }
